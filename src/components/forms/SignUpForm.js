@@ -18,7 +18,7 @@ const SignUpForm = ({ navigation }) => {
       {({ theme }) => (
         <View>
           <Input
-            placeholder="Full name"
+            placeholder="Nombre completo"
             leftIcon={{
               type: "font-awesome",
               name: "user-o",
@@ -42,7 +42,7 @@ const SignUpForm = ({ navigation }) => {
             onChange={setEmail}
           />
           <Input
-            placeholder="Password"
+            placeholder="Contraseña"
             leftIcon={{
               type: "material-community",
               name: "form-textbox-password",
@@ -55,7 +55,7 @@ const SignUpForm = ({ navigation }) => {
             onChange={setPassword}
           />
           <Input
-            placeholder="Confirm password"
+            placeholder="Confirmar contraseña"
             leftIcon={{
               type: "material-community",
               name: "form-textbox-password",
@@ -68,7 +68,7 @@ const SignUpForm = ({ navigation }) => {
             onChange={setConfirmPassword}
           />
           <Button
-            title="Create account"
+            title="Crear cuenta"
             buttonStyle={{ backgroundColor: theme.colors.primary }}
           />
         </View>

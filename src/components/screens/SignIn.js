@@ -14,11 +14,11 @@ const SignIn = ({navigation}) => {
         source={require("../../../assets/fondo.jpg")}
         style={styles.imageBackgroundContainer}
       >
-        <Text style={styles.SignInText}>Sign in to Teach.it</Text>
+        <Text style={styles.SignInText}>Iniciar sesión en Teach.it</Text>
         <View style={styles.formContent}>
           <Logo />
           <SignInForm />
-          <Text>New to Teach.it? <TouchableOpacity onPress={() => navigation.navigate("SignUp")} style={styles.link}>Create an account.</TouchableOpacity></Text>
+          <Text>¿Nuevo en Teach.it? <TouchableOpacity onPress={() => navigation.navigate("SignUp")} style={styles.link}>Crea un cuenta.</TouchableOpacity></Text>
         </View>
       </ImageBackground>
     </View>

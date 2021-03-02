@@ -4,8 +4,8 @@ import { ThemeProvider } from "react-native-elements";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import SignIn from "./src/components/screens/Signin";
-import SignUp from "./src/components/screens/Signup";
+import SignIn from "./src/components/screens/SignIn";
+import SignUp from "./src/components/screens/SignUp";
 import theme from "./src/theme";
 
 const Stack = createStackNavigator();

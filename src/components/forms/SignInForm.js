@@ -23,7 +23,7 @@ const SignInForm = ({ navigation }) => {
             onChange={setEmail}
           />
           <Input
-            placeholder="Password"
+            placeholder="Contraseña"
             leftIcon={{
               type: "material-community",
               name: "form-textbox-password",
@@ -34,7 +34,7 @@ const SignInForm = ({ navigation }) => {
             value={password}
             onChange={setPassword}
           />
-          <Text style={styles.forgotPassword}>Forgot password?</Text>
+          <Text style={styles.forgotPassword}>¿Olvidaste tu contraseña?</Text>
           <Button
             title="Sign in"
           />
