@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Dimensions, View, StatusBar, TouchableOpacity } from "react-native";
+import { StyleSheet, Dimensions, View, StatusBar, TouchableOpacity,ScrollView } from "react-native";
 import { Text } from "react-native-elements";
 import CardForm from "../forms/CardForm";
 
@@ -12,17 +12,30 @@ const Principal = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <CardForm
+      <ScrollView>
+              <CardForm
 
         title="Principal"
-      />
-    </View>
+        />
+        <CardForm
+
+        title="Principal"
+        />
+        <CardForm
+
+        title="Principal"
+        />
+        
+      </ScrollView>
+      </View>
   );
 };
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+        alignItems: 'center',
+        
     },
     
   });
