@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View,Dimensions,ImageBackground } from "react-native";
+import { StyleSheet, View,Dimensions,ImageBackground,TouchableOpacity } from "react-native";
 import { Input, Button, Text, ThemeConsumer } from "react-native-elements"; //https://reactnativeelements.com/docs/customization/
 
 const { width, height } = Dimensions.get("window");
@@ -8,7 +8,7 @@ const CardForm = ({
     clases,
     tutor,
     hora,
-
+    tutoria,
 }) => {
     
   
@@ -26,11 +26,28 @@ const CardForm = ({
             </ImageBackground>
            </View>
            <View style={styles.cartaB}>
-             <Text style={styles.tinfo}>{tutor}</Text>
-            <Text style={styles.tinfo}>{hora}</Text>
-            
-
+             <Text style={styles.tinfo}>Tutor: {tutor}</Text>
+            <Text style={styles.tinfo}>Hora: {hora}</Text>
            </View>
+           {
+
+             tutoria==1?
+             <View style={styles.Vbtn} >
+             <TouchableOpacity  style={styles.button}>
+                  <Text style={styles.buttonText}>Ir Tutoria</Text>
+             </TouchableOpacity>
+             <TouchableOpacity  style={styles.button}>
+                  <Text style={styles.buttonText}>Perfil</Text>
+             </TouchableOpacity>
+            </View>
+             :
+             <View style={styles.Vbtn} >
+             <TouchableOpacity  style={styles.button}>
+                  <Text style={styles.buttonText}>Perfil</Text>
+             </TouchableOpacity>
+            </View>
+           }
+           
             
         </View>
         )}
@@ -47,11 +64,14 @@ const CardForm = ({
       marginBottom:15,
       height:height*0.40,
       width:width*0.90,
-      backgroundColor: '#000',
+      backgroundColor: '#FFf',
+      borderWidth:0.8,
       justifyContent: 'flex-end',
       borderTopRightRadius:15,
       borderTopLeftRadius:15,
-
+      borderBottomRightRadius:15,
+      borderBottomLeftRadius:15,
+      
       
     },
     cartaT:{
@@ -59,28 +79,30 @@ const CardForm = ({
       flex:1/2,
       backgroundColor:"#4ED327",
       borderColor:"#fff",
-      borderTopRightRadius:15,
-      borderTopLeftRadius:15,
+      borderTopRightRadius:14,
+      borderTopLeftRadius:14,
       overflow:"hidden",
+      
     },
     cartaB:{
       
-      flex:1/2,
+      flex:1/3,
       backgroundColor:"#484848",
       justifyContent:"center",
       borderColor:"#fff",
+      borderBottomRightRadius:15,
+      borderBottomLeftRadius:15,
+      
     },
     imageBackgroundContainer: {
       flex: 1,
       alignItems: "center",
       resizeMode: "cover",
-      
 
-      
     },
     tclases:{
       alignSelf:"flex-start",
-      top:"75%",
+      top:"70%",
       color:"#fff",
       fontSize:30,
       marginLeft:"5%"
@@ -89,7 +111,28 @@ const CardForm = ({
       color:"#fff",
       fontSize:20,
       marginLeft:"5%",
-    }
+    },
+    Vbtn:{
+      flex: 1/6,
+      flexDirection:"row",
+      justifyContent:"space-evenly",
+      alignItems:"center",
+      backgroundColor:"#FFF",
+      borderBottomRightRadius:15,
+      borderBottomLeftRadius:15,
+    },
+    button: {
+      backgroundColor: "#fe5722",
+      padding: 10,
+      borderRadius: 5,
+      width: width * 0.4,
+    },
+    buttonText: {
+      color: "#ffffff",
+      fontSize: 15,
+      fontWeight: "bold",
+      textAlign: "center",
+    },
   });
   
   export default CardForm;
