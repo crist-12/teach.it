@@ -3,6 +3,7 @@ import { StyleSheet, Dimensions, View, ImageBackground, StatusBar, TouchableOpac
 import { Text } from "react-native-elements";
 import Logo from "../shared/Logo";
 import SignUpForm from "../forms/SignUpForm";
+import UpperText from "../shared/UpperText";
 
 const { width, height } = Dimensions.get("window");
 
@@ -14,11 +15,11 @@ const SignUp = ({navigation}) => {
         source={require("../../../assets/fondo.jpg")}
         style={styles.imageBackgroundContainer}
       >
-        <Text style={styles.SignUpText}>Únete a Teach.it</Text>
+        <UpperText text="Únete a Teach.it"/>
         <View style={styles.formContent}>
           <Logo />
-          <SignUpForm />
-          <Text>¿Ya tienes una cuenta? <TouchableOpacity onPress={() => navigation.goBack()} style={styles.link}>Inicia sesión</TouchableOpacity></Text>
+          <SignUpForm navigation={navigation}/>
+          <Text>¿Ya tienes una cuenta? <Text style={styles.link}  onPress={() => navigation.goBack()}>Inicia sesión</Text></Text>
         </View>
       </ImageBackground>
     </View>
@@ -34,19 +35,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     resizeMode: "cover",
   },
-  SignUpText: {
-    fontSize: 25,
-    fontWeight:"bold",
-    color: "#fff",
-    paddingTop: 40,
-    paddingBottom: height * 0.15,
-  },
   formContent: {
     backgroundColor: "#fff",
     width: width * 0.9,
     height: height * 0.6,
     borderRadius: 15,
     paddingHorizontal: 15,
+    marginTop: height * 0.09,
     shadowColor: "#000",
     shadowOffset: {
         width: 0,

@@ -1,12 +1,16 @@
 import React from "react";
-import { StyleSheet, Dimensions, View, ImageBackground, StatusBar, TouchableOpacity } from "react-native";
+import { StyleSheet, Dimensions, View, ImageBackground, StatusBar } from "react-native";
 import { Text } from "react-native-elements";
 import Logo from "../shared/Logo";
 import SignInForm from "../forms/SignInForm";
+import Alert from "../shared/Alert";
+import UpperText from "../shared/UpperText";
 
 const { width, height } = Dimensions.get("window");
 
-const SignIn = ({navigation}) => {
+const SignIn = ({ navigation, route }) => {
+  const { userCreated } = route.params;
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -14,11 +18,22 @@ const SignIn = ({navigation}) => {
         source={require("../../../assets/fondo.jpg")}
         style={styles.imageBackgroundContainer}
       >
-        <Text style={styles.SignInText}>Iniciar sesión en Teach.it</Text>
+        <UpperText text="Iniciar sesión en Teach.it"/>
+        { userCreated ? (
+          <Alert type="success" title="¡Usuario creado con éxito! Ingresa ahora" />
+        ) : null}
         <View style={styles.formContent}>
           <Logo />
           <SignInForm />
-          <Text>¿Nuevo en Teach.it? <TouchableOpacity onPress={() => navigation.navigate("SignUp")} style={styles.link}>Crea un cuenta.</TouchableOpacity></Text>
+          <Text>
+            ¿Nuevo en Teach.it?{" "}
+            <Text
+              style={styles.link}
+              onPress={() => navigation.navigate("SignUp")}
+            >
+              Crea un cuenta.
+            </Text>
+          </Text>
         </View>
       </ImageBackground>
     </View>
@@ -33,13 +48,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     resizeMode: "cover",
-  },
-  SignInText: {
-    fontSize: 25,
-    fontWeight:"bold",
-    color: "#fff",
-    paddingTop: 40,
-    paddingBottom: height * 0.15,
+    paddingHorizontal:10
   },
   formContent: {
     backgroundColor: "#fff",
@@ -47,6 +56,7 @@ const styles = StyleSheet.create({
     height: height * 0.6,
     borderRadius: 15,
     paddingHorizontal: 15,
+    marginTop: height * 0.09,
     shadowColor: "#000",
     shadowOffset: {
         width: 0,
@@ -55,7 +65,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   link: {
     color: "#ff5722",
