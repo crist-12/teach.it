@@ -15,12 +15,13 @@ const Logo = () => {
 };
 
 const styles = StyleSheet.create({
-    upperLogo: {
-        width: width * 0.3,
-        height: width * 0.3,
-        marginTop: -height*0.2,
-        alignSelf:"center",
-      },
+  upperLogo: {
+    position:"absolute",
+    width: width * 0.3,
+    height: width * 0.3,
+    alignSelf:"center",
+    top: -height * 0.19,
+  },
 });
 
 export default Logo;
