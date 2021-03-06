@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SignIn from "./src/components/screens/SignIn";
 import SignUp from "./src/components/screens/SignUp";
 import Principal from "./src/components/screens/Principal";
+import Discover from "./src/components/screens/Discover";
 import theme from "./src/theme";
 
 const Stack = createStackNavigator();
@@ -18,7 +19,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{headerShown: false}}>
          
-            <Stack.Screen name="Principal" component={Principal} />
+            <Stack.Screen name="Discover" component={Discover} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

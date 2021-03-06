@@ -6,7 +6,7 @@ import CardForm from "../forms/CardForm";
 
 const { width, height } = Dimensions.get("window");
 
-const Principal = ({navigation}) => {
+const Discover = ({navigation}) => {
 
     
   return (
@@ -32,7 +32,7 @@ const Principal = ({navigation}) => {
             </View>
       </View >
       <View style={styles.titulo}>
-        <Text  style={styles.txtTitulo}>Tutorías</Text>
+        <Text  style={styles.txtTitulo}>Descubrir</Text>
       </View>
      
       <ScrollView style={{width:width,paddingLeft:width*0.05}}>
@@ -41,8 +41,8 @@ const Principal = ({navigation}) => {
 
         clases="Musica"
         tutor="Benito Martinez"
-        hora="15:00"
-        tutoria="1"
+        
+       
         disponible="1"
         />
         <CardForm
@@ -57,7 +57,7 @@ const Principal = ({navigation}) => {
         clases="Programacion"
         tutor="Thomas A. Anderson"
         hora="17:00"
-        tutoria="1"
+     
         />
         
       </ScrollView>
@@ -121,4 +121,4 @@ const styles = StyleSheet.create({
     
   });
 
-export default Principal;
+export default Discover;

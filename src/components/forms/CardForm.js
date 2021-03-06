@@ -9,8 +9,14 @@ const CardForm = ({
     tutor,
     hora,
     tutoria,
+    disponible,
 }) => {
     
+  
+  
+  
+    
+ 
   
     return (
       <ThemeConsumer>
@@ -27,7 +33,23 @@ const CardForm = ({
            </View>
            <View style={styles.cartaB}>
              <Text style={styles.tinfo}>Tutor: {tutor}</Text>
-            <Text style={styles.tinfo}>Hora: {hora}</Text>
+             {hora?<Text style={styles.tinfo}>Hora: {hora}</Text>:null}
+            
+
+            {
+              disponible==1?
+              <View style={{flexDirection:"row", alignContent:"center"}}>
+            <View style={styles.circleg} />
+            <Text style={styles.tdisp}> Disponible</Text>
+            </View>
+              :
+              <View style={{flexDirection:"row", alignContent:"center"}}>
+            <View style={styles.circler} />
+            <Text style={styles.tdisp}> No Disponible</Text>
+            </View>
+            }
+            
+            
            </View>
            {
 
@@ -62,7 +84,7 @@ const CardForm = ({
       color: "#ffff",
       marginTop:20,
       marginBottom:15,
-      height:height*0.40,
+      height:355,
       width:width*0.90,
       backgroundColor: '#FFf',
       borderWidth:0.8,
@@ -112,6 +134,12 @@ const CardForm = ({
       fontSize:20,
       marginLeft:"5%",
     },
+    tdisp:{
+      color:"#fff",
+      fontSize:20,
+     
+   
+    },
     Vbtn:{
       flex: 1/6,
       flexDirection:"row",
@@ -120,6 +148,8 @@ const CardForm = ({
       backgroundColor:"#FFF",
       borderBottomRightRadius:15,
       borderBottomLeftRadius:15,
+     
+   
     },
     button: {
       backgroundColor: "#fe5722",
@@ -133,6 +163,24 @@ const CardForm = ({
       fontWeight: "bold",
       textAlign: "center",
     },
+      circleg: {
+        marginTop:5,
+        marginLeft:"5%",
+        width: 15,
+        height: 15,
+        borderRadius: 100 / 2,
+        backgroundColor: "green",
+ 
+    },
+    circler: {
+      marginTop:5,
+      marginLeft:"5%",
+      width: 15,
+      height: 15,
+      borderRadius: 100 / 2,
+      backgroundColor: "red",
+
+  },
   });
   
   export default CardForm;
