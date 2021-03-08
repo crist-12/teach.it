@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     width: width * 0.3,
     height: width * 0.3,
     alignSelf:"center",
-    top: -height * 0.19,
+    top: -height * 0.18,
   },
 });
 

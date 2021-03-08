@@ -6,7 +6,7 @@ import SignInForm from "../forms/SignInForm";
 import Alert from "../shared/Alert";
 import UpperText from "../shared/UpperText";
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("screen");
 
 const SignIn = ({ navigation, route }) => {
   const { userCreated } = route.params;
@@ -26,7 +26,7 @@ const SignIn = ({ navigation, route }) => {
           <Logo />
           <SignInForm />
           <Text>
-            ¿Nuevo en Teach.it?{" "}
+            ¿Nuevo en Teach.it?
             <Text
               style={styles.link}
               onPress={() => navigation.navigate("SignUp")}

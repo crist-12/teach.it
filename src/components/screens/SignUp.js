@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Dimensions, View, ImageBackground, StatusBar, TouchableOpacity } from "react-native";
+import { StyleSheet, Dimensions, View, ImageBackground, StatusBar } from "react-native";
 import { Text } from "react-native-elements";
 import Logo from "../shared/Logo";
 import SignUpForm from "../forms/SignUpForm";
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   formContent: {
     backgroundColor: "#fff",
     width: width * 0.9,
-    height: height * 0.6,
+    height: height * 0.7,
     borderRadius: 15,
     paddingHorizontal: 15,
     marginTop: height * 0.09,
