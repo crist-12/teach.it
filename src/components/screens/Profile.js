@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../shared/Header'
 import {View, Text, StyleSheet, SafeAreaView, ScrollView, StatusBar} from "react-native"
 import {theme} from '../../theme/index'
+import ButtonCall from '../../components/forms/ButtonCall'
 
 
 const Profile = ({navigation})=>{
@@ -12,9 +13,12 @@ const Profile = ({navigation})=>{
                 <Header>
                 </Header>
                 </View>
-              <View style={styles.divAbout}>
+                <View style={styles.divAbout}>
                     <Text style={styles.textAbout}>Acerca de</Text>
                     <Text style={styles.contentAbout}>Irure mollit commodo duis enim enim adipisicing sit eiusmod minim est sint excepteur ex. Deserunt nostrud velit labore dolor veniam fugiat aliqua culpa. Cupidatat ullamco occaecat ad est.</Text>
+              </View>
+              <View>
+                  <ButtonCall title="Hola" color="black" callback=""></ButtonCall>
               </View>
           </SafeAreaView>
         )
@@ -25,11 +29,12 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     headerDiv:{
-        height: 150,
+        flex: 3
     },
     divAbout:{
         alignItems: 'center',
-        padding: 5,
+        flex: 2,
+        padding: 10
     },
     textAbout:{
         fontWeight: 'bold',
