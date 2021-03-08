@@ -17,8 +17,9 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{headerShown: false}}>
-         
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="SignIn" component={SignIn} initialParams={{ userCreated: false }}/>
+            <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="Discover" component={Discover} />
           </Stack.Navigator>
         </NavigationContainer>
