@@ -9,6 +9,7 @@ import SignUp from "./src/components/screens/SignUp";
 import Principal from "./src/components/screens/Principal";
 import Discover from "./src/components/screens/Discover";
 import Profile from './src/components/screens/Profile'
+import CreditCard from './src/components/screens/CreditCard'
 import theme from "./src/theme";
 
 const Stack = createStackNavigator();
@@ -20,7 +21,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{headerShown: false}}>
          
-            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="CreditCard" component={CreditCard} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
