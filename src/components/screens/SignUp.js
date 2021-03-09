@@ -4,10 +4,11 @@ import { Text } from "react-native-elements";
 import Logo from "../shared/Logo";
 import SignUpForm from "../forms/SignUpForm";
 import UpperText from "../shared/UpperText";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const { width, height } = Dimensions.get("window");
 
-const SignUp = ({navigation}) => {
+const SignUp = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -15,12 +16,19 @@ const SignUp = ({navigation}) => {
         source={require("../../../assets/fondo.jpg")}
         style={styles.imageBackgroundContainer}
       >
-        <UpperText text="Únete a Teach.it"/>
-        <View style={styles.formContent}>
-          <Logo />
-          <SignUpForm navigation={navigation}/>
-          <Text>¿Ya tienes una cuenta? <Text style={styles.link}  onPress={() => navigation.goBack()}>Inicia sesión</Text></Text>
-        </View>
+        <UpperText text="Únete a Teach.it" />
+        <KeyboardAwareScrollView>
+          <View style={styles.formContent}>
+            <Logo />
+            <SignUpForm navigation={navigation} />
+            <Text>
+              ¿Ya tienes una cuenta?{" "}
+              <Text style={styles.link} onPress={() => navigation.goBack()}>
+                Inicia sesión
+              </Text>
+            </Text>
+          </View>
+        </KeyboardAwareScrollView>
       </ImageBackground>
     </View>
   );

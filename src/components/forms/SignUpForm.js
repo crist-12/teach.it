@@ -152,7 +152,7 @@ const SignUpForm = ({ navigation }) => {
           />
           <Button
             title="Crear cuenta"
-            buttonStyle={{ backgroundColor: theme.colors.primary }}
+            style={{marginBottom:10}}
             onPress={handleSignUp}
           />
         </View>
