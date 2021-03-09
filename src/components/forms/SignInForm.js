@@ -17,7 +17,7 @@ const SignInForm = ({ navigation }) => {
   const handleVerify = (input) => {
     if (input === "email") {
       //verificar el correo
-      if (!email) setEmailError(true); //email-validator
+      if (!email) setEmailError(true);
       else if (!validate(email)) setEmailError(true);
       else setEmailError(false);
     } else if (input === "password") {
@@ -25,24 +25,47 @@ const SignInForm = ({ navigation }) => {
       if (!password) setPasswordError(true);
       else if (password.length < 6) setPasswordError(true);
       else setPasswordError(false);
-    }  
-  }
+    }
+  };
 
   const handleSignIn = () => {
     firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((response) => console.log(response))
-    .catch((error) => {
-      setError(error.message);
-    });
-  }
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((response) => {
+        // Obtener el Unique Identifier generado para cada usuario
+        // Firebase -> Authentication
+        const uid = response.user.uid;
+
+        // Obtener la colección desde Firebase
+        const usersRef = firebase.firestore().collection("users");
+
+        // Verificar que el usuario existe en Firebase authentication
+        // y también está almacenado en la colección de usuarios.
+        usersRef
+          .doc(uid)
+          .get()
+          .then((firestoreDocument) => {
+            if (!firestoreDocument.exists) {
+              setError("¡El usuario no existe en la base de datos!");
+              return;
+            }
+
+            // Obtener la información del usuario y enviarla a la pantalla Home
+            const user = firestoreDocument.data();
+            navigation.navigate("Principal", { user });
+          });
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  };
 
   return (
     <ThemeConsumer>
       {({ theme }) => (
         <View>
-          { error ? <Alert title={error} type="error" /> : null}
+          {error ? <Alert title={error} type="error" /> : null}
           <Input
             placeholder="Email"
             leftIcon={{
@@ -53,8 +76,15 @@ const SignInForm = ({ navigation }) => {
             }}
             value={email}
             onChangeText={setEmail}
-            onBlur={()=> {handleVerify("email")}}
-            errorMessage={emailError ? "Debes ingresar tu cuenta de correo electrónico" : null}
+            onBlur={() => {
+              handleVerify("email");
+            }}
+            autoCapitalize="none"
+            errorMessage={
+              emailError
+                ? "Debes ingresar tu cuenta de correo electrónico"
+                : null
+            }
           />
           <Input
             placeholder="Contraseña"
@@ -69,20 +99,19 @@ const SignInForm = ({ navigation }) => {
               type: "font-awesome",
               name: showPassword ? "eye-slash" : "eye",
               color: theme.colors.primary,
-              onPress: () => setShowPassword(!showPassword) 
+              onPress: () => setShowPassword(!showPassword),
             }}
             secureTextEntry={!showPassword}
             autoCapitalize="none"
             value={password}
             onChangeText={setPassword}
-            onBlur={()=> {handleVerify("password")}}
+            onBlur={() => {
+              handleVerify("password");
+            }}
             errorMessage={passwordError ? "Debes ingresar tu contraseña" : null}
           />
           <Text style={styles.forgotPassword}>¿Olvidaste tu contraseña?</Text>
-          <Button
-            title="Iniciar sesión"
-            onPress={handleSignIn}
-          />
+          <Button title="Iniciar sesión" onPress={handleSignIn} style={{marginBottom:10}}/>
         </View>
       )}
     </ThemeConsumer>

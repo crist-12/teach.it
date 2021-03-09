@@ -5,6 +5,8 @@ import Logo from "../shared/Logo";
 import SignInForm from "../forms/SignInForm";
 import Alert from "../shared/Alert";
 import UpperText from "../shared/UpperText";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 const { width, height } = Dimensions.get("screen");
 
@@ -18,23 +20,28 @@ const SignIn = ({ navigation, route }) => {
         source={require("../../../assets/fondo.jpg")}
         style={styles.imageBackgroundContainer}
       >
-        <UpperText text="Iniciar sesión en Teach.it"/>
-        { userCreated ? (
-          <Alert type="success" title="¡Usuario creado con éxito! Ingresa ahora" />
+        <UpperText text="Iniciar sesión en Teach.it" />
+        {userCreated ? (
+          <Alert
+            type="success"
+            title="¡Usuario creado con éxito! Ingresa ahora"
+          />
         ) : null}
-        <View style={styles.formContent}>
-          <Logo />
-          <SignInForm />
-          <Text>
-            ¿Nuevo en Teach.it?
-            <Text
-              style={styles.link}
-              onPress={() => navigation.navigate("SignUp")}
-            >
-              Crea un cuenta.
+        <KeyboardAwareScrollView>
+          <View style={styles.formContent}>
+            <Logo />
+            <SignInForm navigation={navigation} />
+            <Text>
+              ¿Nuevo en Teach.it?{" "} 
+              <Text
+                style={styles.link}
+                onPress={() => navigation.navigate("SignUp")}
+              >
+                Crea un cuenta.
+              </Text>
             </Text>
-          </Text>
-        </View>
+          </View>
+        </KeyboardAwareScrollView>
       </ImageBackground>
     </View>
   );
