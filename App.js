@@ -21,7 +21,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{headerShown: false}}>
          
-            <Stack.Screen name="CreditCard" component={CreditCard} />
+            <Stack.Screen name="Principal" component={Principal} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

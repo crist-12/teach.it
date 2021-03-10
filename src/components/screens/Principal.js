@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Dimensions, View, StatusBar, ScrollView, ImageBackground} from "react-native";
+import { StyleSheet, Dimensions, View, StatusBar, ScrollView, TouchableOpacity} from "react-native";
 import { Text, Icon, Button,Input,Header} from "react-native-elements";
 import CardForm from "../forms/CardForm";
 
@@ -15,8 +15,13 @@ const Principal = ({navigation}) => {
       <StatusBar barStyle="light-content" />
       
       <View style={styles.head}>
+      <TouchableOpacity onPress={null} style={styles.logout}>
+                  <Icon name="logout"color="#fff"  style={{transform: [{rotateY: '180deg'}]}}/>
+             </TouchableOpacity>
       <View style={styles.buscar}>
-      <Input
+      
+      
+       <Input
             placeholder="Buscar" placeholderTextColor="#fff" 
             rightIcon={{
               type: "font-awesome",
@@ -83,6 +88,7 @@ const styles = StyleSheet.create({
   },
   head:{
     width:width,
+    flexDirection:"row"
   },
   imageBackgroundContainer: {
     width:width,
@@ -117,7 +123,17 @@ const styles = StyleSheet.create({
    borderColor:"#fff",
    borderWidth:0,
    borderRadius:5,
-  }
+  },
+  logout: {
+    backgroundColor: "#232425",
+   
+    paddingRight:7,
+    justifyContent:"center",
+    alignContent:"center"
+    
+   
+  },
+ 
     
   });
 
