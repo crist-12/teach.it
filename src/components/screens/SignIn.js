@@ -1,17 +1,91 @@
-import React from "react";
+import React, {useState} from "react";
 import { StyleSheet, Dimensions, View, ImageBackground, StatusBar } from "react-native";
-import { Text } from "react-native-elements";
+import { Text, SocialIcon  } from "react-native-elements";
 import Logo from "../shared/Logo";
 import SignInForm from "../forms/SignInForm";
 import Alert from "../shared/Alert";
 import UpperText from "../shared/UpperText";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
+import { firebase } from "../../firebase";
 
 const { width, height } = Dimensions.get("screen");
 
 const SignIn = ({ navigation, route }) => {
-  const { userCreated } = route.params;
+  const { userCreated, passwordReset } = route.params;
+  const [ error, setError ]=useState(false);
+
+  const handleGoogleSignIn = () => {
+    let provider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((response) => {
+        //Obtener el Unique Identifier generado para cada usuario
+        const uid = response.user.uid;
+        const email = response.user.email;
+        const fullname = response.user.displayName;
+        //Construir el objeto a enviar a la coleccion de "users"
+        const user = {
+          id: uid,
+          email,
+          fullname
+        };
+
+        //Obtener la coleccion desde Firebase
+        const usersRef = firebase.firestore().collection("users");
+
+        //Inicia sesion y si no estaba registrado se registra el dato en firestore
+        usersRef
+        .doc(uid)
+        .set(user)
+        .then(() => {
+          // Obtener la información del usuario y enviarla a la pantalla Principal
+          navigation.navigate("Principal", { user });
+        })
+        .catch((error) => {
+          setError(error.message);
+          console.log(error.message);
+        });
+      })
+      .catch((error) => setError(error.message));
+  };
+
+  const handleFacebookSignIn = () => {
+    let provider = new firebase.auth.FacebookAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((response) => {
+        console.log(response);
+        //Obtener el Unique Identifier generado para cada usuario
+        const uid = response.user.uid;
+        const email = response.user.email;
+        const fullname = response.user.displayName;
+        //Construir el objeto a enviar a la coleccion de "users"
+        const user = {
+          id: uid,
+          email,
+          fullname
+        };
+
+        //Obtener la coleccion desde Firebase
+        const usersRef = firebase.firestore().collection("users");
+
+        //Inicia sesion y si no estaba registrado se registra el dato en firestore
+        usersRef
+        .doc(uid)
+        .set(user)
+        .then(() => {
+          // Obtener la información del usuario y enviarla a la pantalla Principal
+          navigation.navigate("Principal", { user });
+        })
+        .catch((error) => {
+          setError(error.message);
+          console.log(error.message);
+        });
+      })
+      .catch((error) => {setError(error.message); console.log(error.message)});
+  };
 
   return (
     <View style={styles.container}>
@@ -27,6 +101,12 @@ const SignIn = ({ navigation, route }) => {
             title="¡Usuario creado con éxito! Ingresa ahora"
           />
         ) : null}
+        {passwordReset ? (
+          <Alert
+            type="success"
+            title="Revisa tu correo para restablecer tu contraseña e ingresar"
+          />
+        ) : null}
         <KeyboardAwareScrollView>
           <View style={styles.formContent}>
             <Logo />
@@ -40,6 +120,22 @@ const SignIn = ({ navigation, route }) => {
                 Crea un cuenta.
               </Text>
             </Text>
+            <Text style={styles.line}>─────────── o ───────────</Text>
+            <SocialIcon
+              title='Iniciar sesión con Facebook'
+              button
+              raised
+              type='facebook'
+              onPress={handleFacebookSignIn}
+            />
+            <SocialIcon
+              title='Iniciar sesión con Google'
+              button
+              raised
+              type='google'
+              onPress={handleGoogleSignIn}
+            />
+
           </View>
         </KeyboardAwareScrollView>
       </ImageBackground>
@@ -55,15 +151,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     resizeMode: "cover",
-    paddingHorizontal:10
   },
   formContent: {
     backgroundColor: "#fff",
     width: width * 0.9,
-    height: height * 0.6,
+    height: height * 0.73,
     borderRadius: 15,
     paddingHorizontal: 15,
-    marginTop: height * 0.09,
+    marginTop: height * 0.1,
     shadowColor: "#000",
     shadowOffset: {
         width: 0,
@@ -76,8 +171,12 @@ const styles = StyleSheet.create({
   },
   link: {
     color: "#ff5722",
-    paddingTop: 10
-  }
+  },
+  line:{
+    textAlign:"center",
+    color: "rgb(134, 147, 158)",
+    padding: 10,
+  },
 });
 
 export default SignIn;

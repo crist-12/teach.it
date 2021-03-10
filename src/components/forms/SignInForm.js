@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Input, Button, Text, ThemeConsumer } from "react-native-elements"; //https://reactnativeelements.com/docs/customization/
 import { validate } from "email-validator";
@@ -13,6 +13,14 @@ const SignInForm = ({ navigation }) => {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
+  const cleanValues = () => {
+    //Limpiar valores
+    setEmail("");
+    setPassword("");
+    setError(false);
+  };
+  
+            
   //Verificar si se ingresan los datos de email y password
   const handleVerify = (input) => {
     if (input === "email") {
@@ -50,7 +58,7 @@ const SignInForm = ({ navigation }) => {
               setError("¡El usuario no existe en la base de datos!");
               return;
             }
-
+            cleanValues();  
             // Obtener la información del usuario y enviarla a la pantalla Home
             const user = firestoreDocument.data();
             navigation.navigate("Principal", { user });
@@ -110,8 +118,8 @@ const SignInForm = ({ navigation }) => {
             }}
             errorMessage={passwordError ? "Debes ingresar tu contraseña" : null}
           />
-          <Text style={styles.forgotPassword}>¿Olvidaste tu contraseña?</Text>
-          <Button title="Iniciar sesión" onPress={handleSignIn} style={{marginBottom:10}}/>
+          <Text style={styles.forgotPassword} onPress={()=>navigation.navigate("ResetPassword")}>¿Olvidaste tu contraseña?</Text>
+          <Button title="Iniciar sesión" titleStyle={styles.buttonTitle} onPress={handleSignIn} buttonStyle={styles.buttons}/>
         </View>
       )}
     </ThemeConsumer>
@@ -125,6 +133,15 @@ const styles = StyleSheet.create({
     color: "#ff5722",
     paddingBottom: 30
   },
+  buttons: {
+    borderRadius: 50,
+    marginBottom: 10,
+    padding: 14,
+  },
+  buttonTitle: {
+    fontSize: 14,
+    fontWeight: "bold"
+  }
 });
 
 export default SignInForm;

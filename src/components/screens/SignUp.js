@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
   },
   link: {
     color: "#ff5722",    
-    paddingTop: 10
   }
 });
 

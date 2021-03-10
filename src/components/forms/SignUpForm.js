@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Input, Button, ThemeConsumer } from "react-native-elements";
 import { validate } from "email-validator";
 import { firebase } from "../../firebase";
@@ -152,7 +152,8 @@ const SignUpForm = ({ navigation }) => {
           />
           <Button
             title="Crear cuenta"
-            style={{marginBottom:10}}
+            titleStyle={styles.buttonTitle}
+            buttonStyle={styles.buttons}
             onPress={handleSignUp}
           />
         </View>
@@ -160,5 +161,18 @@ const SignUpForm = ({ navigation }) => {
     </ThemeConsumer>
   );
 };
+
+const styles = StyleSheet.create({
+  buttons: {
+    borderRadius:50,
+    marginBottom:10,
+    padding: 14,
+    marginVertical: 15
+  },
+  buttonTitle: {
+    fontSize: 14,
+    fontWeight: "bold"
+  }
+});
 
 export default SignUpForm;
