@@ -1,5 +1,6 @@
 import createDataContext from "./createDataContext";
 import { firebase } from "../firebase";
+import { validate } from "email-validator";
 
 //Acciones disponibles para el reducer
 const authReducer = (state, action) => {
@@ -9,7 +10,7 @@ const authReducer = (state, action) => {
     case "signIn":
       return { ...state, user: action.payload, loggedIn: true };
     case "signOut":
-      return { ...state, user: action.payload, loggedIn: false };
+      return { ...state, user: action.payload, loggedIn: false, userCreated: false, passReset: false };
     case "persistLogin":
       return {
         ...state,
@@ -17,6 +18,14 @@ const authReducer = (state, action) => {
         loggedIn: action.payload.loggedIn,
         loading: false,
       };
+    case "signUp":
+      return {
+        ...state,
+        user: action.payload.user,
+        userCreated: true,
+      };  
+    case "resetPassword":
+      return { ...state, passReset: action.payload.passReset};  
     default:
       return state;
   }
@@ -71,6 +80,43 @@ const signOut = (dispatch) => () => {
     });
 };
 
+//Permite el registro en la APP
+const signUp = (dispatch) => (fullname, email, password) => {
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then((response) => {
+      // Obtener el Unique Identifier generado para cada usuario
+      // Firebase -> Authentication
+      const uid = response.user.uid;
+
+      // Construir el objeto que le enviaremos a la collección de "users"
+      const data = {
+        id: uid,
+        email,
+        fullname,
+      };
+
+      // Obtener la colección desde Firebase
+      const usersRef = firebase.firestore().collection("users");
+
+      // Almacenar la información del usuario que se registra en Firestore
+      usersRef
+        .doc(uid)
+        .set(data)
+        .then(() => {
+          dispatch({
+            type: "signUp",
+            payload: { user: data, userCreated: true },
+          });
+        })
+        .catch((error) => {
+          dispatch({ type: "errorMessage", payload: error.message });
+        });
+    });
+  dispatch({ type: "errorMessage", payload: error.message });
+};
+
 // Verifica si existe el token de firebase para iniciar sesión sin credenciales
 const persistLogin = (dispatch) => () => {
   const userRef = firebase.firestore().collection("users");
@@ -99,13 +145,45 @@ const persistLogin = (dispatch) => () => {
   });
 };
 
+// Permite el inicio de sesión mediante firebase con email y password
+const resetPassword = (dispatch) => ( email ) => {
+  console.log(email);
+  if (validate(email)) {
+    var auth = firebase.auth();
+    auth
+      .sendPasswordResetEmail(email)
+      .then(function () {
+        console.log("Correo enviado");
+        dispatch({ type: "errorMessage", payload: "" });
+        dispatch({ type: "resetPassword", payload: { passReset: true } });
+      })
+      .catch(function (error) {
+        if (error.code == "auth/user-not-found") {
+          dispatch({ type: "errorMessage",payload: "No existe ningún usuario registrado con este correo."});
+        } else {
+          dispatch({ type: "errorMessage", payload: "Hubo un error al intentar mandar el correo. Por favor intenta de nuevo."});
+        }
+      });
+  } else {
+    dispatch({ type: "errorMessage", payload: "¡Ingresa una dirección de correo válida!" });
+  }
+};
+
+//Funcion para dejar limpio el error, se aplica en las pantallas
+const clearErrorMessage = (dispatch) => () => {
+  dispatch({ type: "errorMessage", payload: "" });
+};
+
 // Exportar las funcionalidades requeridas al contexto
 export const { Provider, Context } = createDataContext(
   authReducer,
   {
     signIn,
     signOut,
+    signUp,
     persistLogin,
+    resetPassword,
+    clearErrorMessage
   },
-  { user: {}, errorMessage: "", loggedIn: false, loading: true }
+  { user: {}, errorMessage: "", loggedIn: false, loading: true, userCreated: false, passReset: false }
 );
