@@ -10,7 +10,7 @@ const authReducer = (state, action) => {
     case "signIn":
       return { ...state, user: action.payload, loggedIn: true };
     case "signOut":
-      return { ...state, user: action.payload, loggedIn: false, userCreated: false, passReset: false };
+      return { ...state, user: action.payload, loggedIn: false, passReset: false }; //uscreated no debe ir
     case "persistLogin":
       return {
         ...state,
@@ -63,7 +63,15 @@ const signIn = (dispatch) => ( email, password ) => {
         });
     })
     .catch((error) => {
-      dispatch({ type: "errorMessage", payload: error.message });
+      if (error.code == "auth/user-not-found") {
+        dispatch({ type: "errorMessage",payload: "No existe ningún usuario registrado con este correo"});
+      } else if (error.code == "auth/wrong-password"){
+        dispatch({ type: "errorMessage", payload: "Contraseña incorrecta"});
+      } else if (error.code == "auth/invalid-email"){
+        dispatch({ type: "errorMessage", payload: "El correo ingresado no es válido"});
+      } else {
+        dispatch({ type: "errorMessage", payload: "Ocurrió un error, por favor intenta de nuevo"});
+      }
     });
 };
 
@@ -114,7 +122,6 @@ const signUp = (dispatch) => (fullname, email, password) => {
           dispatch({ type: "errorMessage", payload: error.message });
         });
     });
-  dispatch({ type: "errorMessage", payload: error.message });
 };
 
 // Verifica si existe el token de firebase para iniciar sesión sin credenciales
@@ -145,15 +152,13 @@ const persistLogin = (dispatch) => () => {
   });
 };
 
-// Permite el inicio de sesión mediante firebase con email y password
+// Funcion para hacer el reset de la contraseña
 const resetPassword = (dispatch) => ( email ) => {
-  console.log(email);
   if (validate(email)) {
     var auth = firebase.auth();
     auth
       .sendPasswordResetEmail(email)
       .then(function () {
-        console.log("Correo enviado");
         dispatch({ type: "errorMessage", payload: "" });
         dispatch({ type: "resetPassword", payload: { passReset: true } });
       })

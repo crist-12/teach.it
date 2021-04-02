@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext,useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Input, Button, ThemeConsumer } from "react-native-elements";
 import { validate } from "email-validator";
-import { firebase } from "../../firebase";
 import Alert from "../shared/Alert";
+import { Context as AuthContext } from "../../providers/AuthContext";
 
 const SignUpForm = ({ navigation }) => {
+  const { state, signUp, clearErrorMessage } = useContext(AuthContext);
+
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +19,20 @@ const SignUpForm = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [error,setError] = useState(false);
+
+  useEffect(() => {
+    if (state.errorMessage){
+      clearErrorMessage();
+    } 
+  }, []);
+
+  useEffect(() => {
+    if (state.errorMessage) setError(state.errorMessage);
+  }, [state.errorMessage]);
+
+  useEffect(() => {
+    if (state.userCreated) navigation.navigate("Principal");
+  }, [state]);
 
   //Verificar si se ingresan todos los datos solicitados y si son válidos
   const handleVerify = (input) => {
@@ -39,38 +55,20 @@ const SignUpForm = ({ navigation }) => {
       if (!confirmPassword) setConfirmPasswordError(true);
       else if (confirmPassword !== password) setConfirmPasswordError(true);
       else setConfirmPasswordError(false);
+    } else if (input === "signUp") {
+      if (
+        !fullnameError &&
+        !emailError &&
+        !passwordError &&
+        !confirmPasswordError &&
+        fullname &&
+        email &&
+        password &&
+        confirmPassword
+      )
+        signUp(fullname, email, password);
+      else setError("¡Debes ingresar todos los campos!");
     }
-  };
-  const handleSignUp = () => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((response) => {
-        //Obtener el Unique Identifier generado para cada usuario
-        const uid = response.user.uid;
-
-        //Construir el objeto a enviar a la coleccion de "users"
-        const data = {
-          id: uid,
-          email,
-          fullname
-        };
-
-        //Obtener la coleccion desde Firebase
-        const usersRef = firebase.firestore().collection("users");
-
-        //Almacenar la informacion del usuario que se registra en Firestore
-        usersRef
-          .doc(uid)
-          .set(data)
-          .then(() => {
-            navigation.navigate("SignIn", { userCreated: true });
-          })
-          .catch((error) => {
-            setError(error.message);
-          });
-      })
-      .catch((error) => setError(error.message));
   };
 
   return (
@@ -154,7 +152,7 @@ const SignUpForm = ({ navigation }) => {
             title="Crear cuenta"
             titleStyle={styles.buttonTitle}
             buttonStyle={styles.buttons}
-            onPress={handleSignUp}
+            onPress={() => handleVerify("signUp")}
           />
         </View>
       )}

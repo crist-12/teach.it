@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   StyleSheet,
   Dimensions,
@@ -9,29 +9,25 @@ import {
 } from "react-native";
 import { Text, Icon, Input } from "react-native-elements";
 import CardForm from "../forms/CardForm";
-import { firebase } from "../../firebase";
 import Alert from "../shared/Alert";
-
+import {Context as AuthContext} from "../../providers/AuthContext";
 const { width, height } = Dimensions.get("window");
 
-const Principal = ({ navigation, route }) => {
-  const { user } = route.params;
-  const [error, setError] = useState(false);
+const Principal = () => {
+  const {state, signOut} = useContext(AuthContext);
 
-  const signOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        // Sign-out successful.
-        console.log("Sesion Cerrada");
-        navigation.navigate("SignIn", { userCreated: false });
-      })
-      .catch((error) => {
-        // An error happened.
-        setError("Ocurrió un error al intentar cerrar sesión");
-      });
-  };
+  const [error, setError] = useState(false);
+  const [user, setUser] = useState(false);
+
+
+  useEffect(() => {
+    setError(state.errorMessage);
+  }, [state.errorMessage]);
+
+  useEffect(() => {
+    setUser(state.user);
+  }, [state.user]);
+  
 
   return (
     <View style={styles.container}>

@@ -1,45 +1,38 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Input, Button, ThemeConsumer } from "react-native-elements"; //https://reactnativeelements.com/docs/customization/
 import { validate } from "email-validator";
-import { firebase } from "../../firebase";
 import Alert from "../shared/Alert";
+import { Context as AuthContext } from "../../providers/AuthContext";
 
 const ResetPasswordForm = ({ navigation }) => {
+  const { state, resetPassword, clearErrorMessage } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [error, setError] = useState(false);
+  
+  useEffect(() => {
+    if (state.errorMessage) clearErrorMessage();
+  }, []);
+
+  useEffect(() => {
+    if (state.errorMessage) setError(state.errorMessage);
+  }, [state.errorMessage]);
+
+  useEffect(() => {
+    //Si se pudo realizar el restablecimiento de la contraseña, se regresa a SignIn
+    if (state.passReset) navigation.navigate("SignIn");
+  }, [state.passReset]);
 
   const handleVerify = (input) => {
     if (input === "email") {
       if (!email) setEmailError(true);
       else if (!validate(email)) setEmailError(true);
       else setEmailError(false);
-    }
-  };
-
-  const hadleResetPassword = () => {
-    if (validate(email)) {
-      var auth = firebase.auth();
-      auth
-        .sendPasswordResetEmail(email)
-        .then(function () {
-          console.log("Correo enviado");
-          setError(false);
-          navigation.navigate("SignIn", { passwordReset: true });
-        })
-        .catch(function (error) {
-          if (error.code == "auth/user-not-found") {
-            setError("No existe ningún usuario registrado con este correo.");
-          } else {
-            setError(
-              "Hubo un error al intentar mandar el correo. Por favor intenta de nuevo."
-            );
-          }
-          console.log(error);
-        });
-    } else {
-      setEmailError("¡Ingresa una dirección de correo válida!");
+    } else if (input === "reset") {
+      if (!emailError && email)
+      resetPassword(email);
+      else setError("¡Debes ingresar tu correo!");
     }
   };
 
@@ -71,7 +64,7 @@ const ResetPasswordForm = ({ navigation }) => {
           <Button
             title="Restablecer Contraseña"
             titleStyle={styles.buttonTitle}
-            onPress={hadleResetPassword}
+            onPress={() => handleVerify("reset")}
             buttonStyle={styles.buttons}
           />
         </View>
