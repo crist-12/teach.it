@@ -1,19 +1,13 @@
-import React, {useState} from "react";
+import React from "react";
 import { StyleSheet, Dimensions, View, ImageBackground, StatusBar } from "react-native";
-import { Text, Button } from "react-native-elements";
+import { Text } from "react-native-elements";
 import Logo from "../shared/Logo";
 import ResetPasswordForm from "../forms/ResetPasswordForm";
-import Alert from "../shared/Alert";
 import UpperText from "../shared/UpperText";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { firebase } from "../../firebase";
-
-
 const { width, height } = Dimensions.get("screen");
 
 const ResetPassword = ({ navigation }) => {
-    const [ error, setError ] = useState(false);
-
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" />
@@ -25,7 +19,7 @@ const ResetPassword = ({ navigation }) => {
                 <KeyboardAwareScrollView>
                 <View style={styles.formContent}>
                     <Logo />
-                    <ResetPasswordForm navigation={navigation} />
+                    <ResetPasswordForm navigation={navigation}/>
                     <Text style={styles.link} onPress={()=>navigation.navigate("SignIn")}>Regresar al inicio</Text>
                 </View>
                 </KeyboardAwareScrollView>

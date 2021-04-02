@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, Dimensions, View, ImageBackground, StatusBar } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Text } from "react-native-elements";
-import Logo from "../shared/Logo";
 import SignUpForm from "../forms/SignUpForm";
 import UpperText from "../shared/UpperText";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Logo from "../shared/Logo";
 
 const { width, height } = Dimensions.get("window");
 

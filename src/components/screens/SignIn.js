@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState,useEffect } from "react";
 import { StyleSheet, Dimensions, View, ImageBackground, StatusBar } from "react-native";
 import { Text, SocialIcon  } from "react-native-elements";
 import Logo from "../shared/Logo";
@@ -7,12 +7,19 @@ import Alert from "../shared/Alert";
 import UpperText from "../shared/UpperText";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../firebase";
+import { Context as AuthContext } from "../../providers/AuthContext";
 
 const { width, height } = Dimensions.get("screen");
 
-const SignIn = ({ navigation, route }) => {
-  const { userCreated, passwordReset } = route.params;
+const SignIn = ({ navigation }) => {
+  const { state  } = useContext(AuthContext);
   const [ error, setError ]=useState(false);
+  const [ passwordReset, setPasswordReset ] = useState(false);
+
+  //Verifica si se acaba de cambiar la contraseña
+  useEffect(() => {
+      setPasswordReset(state.passReset);
+  }, [state.passReset]);
 
   const handleGoogleSignIn = () => {
     let provider = new firebase.auth.GoogleAuthProvider();
@@ -95,22 +102,16 @@ const SignIn = ({ navigation, route }) => {
         style={styles.imageBackgroundContainer}
       >
         <UpperText text="Iniciar sesión en Teach.it" />
-        {userCreated ? (
-          <Alert
-            type="success"
-            title="¡Usuario creado con éxito! Ingresa ahora"
-          />
-        ) : null}
         {passwordReset ? (
           <Alert
             type="success"
             title="Revisa tu correo para restablecer tu contraseña e ingresar"
           />
-        ) : null}
+        ) : null} 
         <KeyboardAwareScrollView>
           <View style={styles.formContent}>
             <Logo />
-            <SignInForm navigation={navigation} />
+            <SignInForm navigation={navigation}/>
             <Text>
               ¿Nuevo en Teach.it?{" "} 
               <Text
