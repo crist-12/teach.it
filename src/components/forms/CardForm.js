@@ -10,6 +10,7 @@ const CardForm = ({
     hora,
     tutoria,
     disponible,
+    navigation
 }) => {
     
   
@@ -58,13 +59,13 @@ const CardForm = ({
              <TouchableOpacity  style={styles.button}>
                   <Text style={styles.buttonText}>Ir Tutoria</Text>
              </TouchableOpacity>
-             <TouchableOpacity  style={styles.button}>
+             <TouchableOpacity   onPress={()=>{navigation.navigate("Profile")}} style={styles.button}>
                   <Text style={styles.buttonText}>Perfil</Text>
              </TouchableOpacity>
             </View>
              :
              <View style={styles.Vbtn} >
-             <TouchableOpacity  style={styles.button}>
+             <TouchableOpacity  onPress={()=>{navigation.navigate("Profile")}}  style={styles.button}>
                   <Text style={styles.buttonText}>Perfil</Text>
              </TouchableOpacity>
             </View>
