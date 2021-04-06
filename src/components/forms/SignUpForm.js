@@ -1,9 +1,10 @@
 import React, { useContext,useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { Input, Button, ThemeConsumer } from "react-native-elements";
+import { Input, Button } from "react-native-elements";
 import { validate } from "email-validator";
 import Alert from "../shared/Alert";
 import { Context as AuthContext } from "../../providers/AuthContext";
+import theme from "../../theme";
 
 const SignUpForm = ({ navigation }) => {
   const { state, signUp, clearErrorMessage } = useContext(AuthContext);
@@ -72,8 +73,6 @@ const SignUpForm = ({ navigation }) => {
   };
 
   return (
-    <ThemeConsumer>
-      {({ theme }) => (
         <View>
           {error ? <Alert type="error" title={error} /> : null}
           <Input
@@ -155,8 +154,6 @@ const SignUpForm = ({ navigation }) => {
             onPress={() => handleVerify("signUp")}
           />
         </View>
-      )}
-    </ThemeConsumer>
   );
 };
 

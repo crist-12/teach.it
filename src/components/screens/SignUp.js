@@ -5,6 +5,7 @@ import { Text } from "react-native-elements";
 import SignUpForm from "../forms/SignUpForm";
 import UpperText from "../shared/UpperText";
 import Logo from "../shared/Logo";
+import theme from "../../theme";
 
 const { width, height } = Dimensions.get("window");
 
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   link: {
-    color: "#ff5722",    
+    color: theme.colors.primary,    
   }
 });
 

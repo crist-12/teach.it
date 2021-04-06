@@ -8,6 +8,7 @@ import UpperText from "../shared/UpperText";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../firebase";
 import { Context as AuthContext } from "../../providers/AuthContext";
+import theme from "../../theme";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   link: {
-    color: "#ff5722",
+    color: theme.colors.primary,
   },
   line:{
     textAlign:"center",
