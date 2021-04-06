@@ -49,8 +49,7 @@ const Principal = ({navigation}) => {
         </View>
       </View>
       <View style={styles.titulo}>
-        <Text style={styles.txtTitulo}>{user.fullname}</Text>
-        <Text style={styles.txtTitulo}>Tutorías</Text>
+        <Text style={styles.txtTitulo}>Mis Tutorías</Text>
       </View>
 
       <ScrollView style={{ width: width, paddingLeft: width * 0.05 }}>

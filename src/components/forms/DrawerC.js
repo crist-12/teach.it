@@ -49,7 +49,14 @@ function DrawerContent(props) {
                         <View >
                             <DrawerItem
                             style={styles.it}
-                            label="Discover"
+                            icon={({color, size}) => (
+                                <Icon
+                                    name="explore"
+                                    color="#fe5722"
+                                    style={{ transform: [{ rotateY: "0deg" }] }}
+                                />
+                            )}
+                            label="Descubrir"
                             labelStyle={{color:"#fe5722"}} 
                             onPress={()=>{props.navigation.navigate("Discover")}}
                             />
@@ -89,7 +96,11 @@ const styles = StyleSheet.create({
         
     },
     it:{
-        backgroundColor:"#fff"
+        backgroundColor:"#fff",
+        borderTopColor:"#C8C4C2",
+        borderTopWidth:0.5,
+        borderBottomColor:"#C8C4C2",
+        borderBottomWidth:0.5
     },
 
     logout: {
