@@ -13,7 +13,7 @@ import Alert from "../shared/Alert";
 import {Context as AuthContext} from "../../providers/AuthContext";
 const { width, height } = Dimensions.get("window");
 
-const Principal = () => {
+const Principal = ({navigation}) => {
   const {state, signOut} = useContext(AuthContext);
 
   const [error, setError] = useState(false);
@@ -34,13 +34,7 @@ const Principal = () => {
       <StatusBar barStyle="light-content" />
 
       <View style={styles.head}>
-        <TouchableOpacity onPress={signOut} style={styles.logout}>
-          <Icon
-            name="logout"
-            color="#fff"
-            style={{ transform: [{ rotateY: "180deg" }] }}
-          />
-        </TouchableOpacity>
+      
         <View style={styles.buscar}>
           <Input
             placeholder="Buscar"
@@ -55,8 +49,7 @@ const Principal = () => {
         </View>
       </View>
       <View style={styles.titulo}>
-        <Text style={styles.txtTitulo}>{user.fullname}</Text>
-        <Text style={styles.txtTitulo}>Tutorías</Text>
+        <Text style={styles.txtTitulo}>Mis Tutorías</Text>
       </View>
 
       <ScrollView style={{ width: width, paddingLeft: width * 0.05 }}>
@@ -67,18 +60,21 @@ const Principal = () => {
           hora="15:00"
           tutoria="1"
           disponible="1"
+          navigation={navigation}
         />
         <CardForm
           clases="Filosofia"
           tutor="Armando hoyos"
           hora="16:00"
           tutoria="1"
+          navigation={navigation}
         />
         <CardForm
           clases="Programacion"
           tutor="Thomas A. Anderson"
           hora="17:00"
           tutoria="1"
+          navigation={navigation}
         />
       </ScrollView>
     </View>

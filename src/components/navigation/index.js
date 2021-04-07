@@ -1,14 +1,40 @@
 import React, { useContext, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import * as SplashScreen from "expo-splash-screen";
 import { Context as AuthContext } from "../../providers/AuthContext";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
 import ResetPassword from "../screens/ResetPassword";
 import Principal from "../screens/Principal";
-
+import Discover from "../screens/Discover";
+import Profile from "../screens/Profile"
+import DrawerContent from "../forms/DrawerC"
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function drawer(){
+  return(
+      <Drawer.Navigator 
+      drawerContent= {props => <DrawerContent {...props}/>}
+      > 
+        <Drawer.Screen name="Principal" component={Principal} 
+        options={{
+          title:'Principal', 
+        }}/>
+        <Drawer.Screen name="Discover" component={Discover} 
+        options={{
+          title:'Discover', 
+        }}/>
+        <Drawer.Screen name="Profile" component={Profile} 
+        options={{
+          title:'Profile', 
+        }}/>
+
+      </Drawer.Navigator>
+  );
+};
 
 const Navigation = () => {
   const { state, persistLogin } = useContext(AuthContext);
@@ -30,7 +56,7 @@ const Navigation = () => {
         <>
           {state.loggedIn ? (
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Principal" component={Principal} />
+              <Stack.Screen name="Drawer" component={drawer} />
             </Stack.Navigator>
           ) : (
             <Stack.Navigator screenOptions={{ headerShown: false }}>
