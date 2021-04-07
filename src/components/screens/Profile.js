@@ -1,8 +1,8 @@
-import React from 'react'
-import Header from '../shared/Header'
-import {View, Text, StyleSheet, SafeAreaView, ScrollView, StatusBar} from "react-native"
-import {theme} from '../../theme/index'
-import ButtonCall from '../../components/forms/ButtonCall'
+import React from 'react';
+import Header from '../shared/Header';
+import {View, Text, StyleSheet, SafeAreaView, ScrollView, StatusBar} from "react-native";
+import {theme} from '../../theme/index';
+import ButtonCall from '../../components/forms/ButtonCall';
 
 
 const Profile = ({navigation})=>{

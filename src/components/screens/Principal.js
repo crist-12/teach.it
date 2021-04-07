@@ -27,15 +27,18 @@ const Principal = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    console.log(teachItState);
+    console.log(teachItState.tutors); //Datos de los tutores que deberian ir en la pantalla, se sacan de este estado
   }, [teachItState]);
 
   useEffect(() => {
     if (teachItState.errorMessage) {
-      Toast.show({
-        text2: teachItState.errorMessage,
-      });
-      clearMessage();
+      if (teachItState.errorMessage !== "NotTutor"){
+        Toast.show({
+          text2: teachItState.errorMessage,
+        });
+        clearMessage();
+      } 
+      
     }
   }, [teachItState.errorMessage]);
 
@@ -46,7 +49,6 @@ const Principal = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
       <StatusBar barStyle="light-content" />
       <View style={styles.head}>
       
@@ -66,6 +68,7 @@ const Principal = ({navigation}) => {
       <View style={styles.titulo}>
         <Text style={styles.txtTitulo}>Mis Tutorías</Text>
       </View>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
 
       <ScrollView style={{ width: width, paddingLeft: width * 0.05 }}>
         {error ? <Alert title={error} type="error" /> : null}

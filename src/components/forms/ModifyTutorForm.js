@@ -24,7 +24,6 @@ const ModifyTutorForm = ({ navigation }) => {
 
   useEffect(() => {
     if (teachItState.currentTutor.id) {
-      console.log("cambio datos de tutor");
       setUniversity(teachItState.currentTutor.university);
       setAbout(teachItState.currentTutor.about);
       setOcupation(teachItState.currentTutor.ocupation);
@@ -40,7 +39,7 @@ const ModifyTutorForm = ({ navigation }) => {
 
   useEffect(() => {
     if (teachItState.errorMessage){
-      clearErrorMessage();
+      clearMessage();
     } 
     setCurrentTutor(state.user.id);
   }, []);
@@ -89,7 +88,6 @@ const ModifyTutorForm = ({ navigation }) => {
 
   const handlerCheck = (id, valor) =>{
     const index = categories.findIndex(category=> category.value === id);
-    console.log(valor);
     categories[index].checked = valor;
    };
 

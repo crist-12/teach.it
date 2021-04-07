@@ -6,6 +6,7 @@ const theme = {
         primaryDark: "#c41c00",
         secondaryLight: "#484848",
         secondaryDark: "#000000",
+        borders: "#C8C4C2",
         error: "#ef6e5e", //Para texto y color de iconos
         warning: "#ffb44d",
         info: "#00ceb2",

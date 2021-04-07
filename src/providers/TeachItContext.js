@@ -91,7 +91,7 @@ const setCurrentTutor = (dispatch) => (tutorId) => {
     .onSnapshot(
       (querySnapshot) => {
         if (querySnapshot.empty) {
-          dispatch({ type: "errorMessage", payload: "No estas registrado como tutor." });
+          dispatch({ type: "errorMessage", payload: "NotTutor" });
           return;
         }
         

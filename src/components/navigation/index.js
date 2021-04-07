@@ -34,7 +34,14 @@ function drawer(){
         options={{
           title:'Profile', 
         }}/>
-
+        <Drawer.Screen name="TutorSignUp" component={TutorSignUp} 
+        options={{
+          title:'TutorSignUp', 
+        }}/>
+         <Drawer.Screen name="TutorUpdate" component={TutorUpdate} 
+        options={{
+          title:'TutorUpdate', 
+        }}/>
       </Drawer.Navigator>
   );
 };

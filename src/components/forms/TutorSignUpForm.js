@@ -12,7 +12,7 @@ import theme from "../../theme";
 const { width, height } = Dimensions.get("screen");
 
 const TutorSignUpForm = ({ navigation }) => {
-  const { state: teachItState,tutorSignUp } = useContext(TeachItContext);
+  const { state: teachItState,tutorSignUp,clearMessage } = useContext(TeachItContext);
   const { state } = useContext(AuthContext);
 
   const [university, setUniversity] = useState("");
@@ -24,7 +24,7 @@ const TutorSignUpForm = ({ navigation }) => {
 
   useEffect(() => {
     if (teachItState.errorMessage){
-      clearErrorMessage();
+      clearMessage();
     } 
   }, []);
 
