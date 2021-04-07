@@ -4,13 +4,16 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import * as SplashScreen from "expo-splash-screen";
 import { Context as AuthContext } from "../../providers/AuthContext";
-import SignIn from "../screens/SignIn";
-import SignUp from "../screens/SignUp";
 import ResetPassword from "../screens/ResetPassword";
 import Principal from "../screens/Principal";
 import Discover from "../screens/Discover";
 import Profile from "../screens/Profile"
 import DrawerContent from "../forms/DrawerC"
+import SignIn from "../screens/SignIn";
+import SignUp from "../screens/SignUp";
+import TutorSignUp from "../screens/TutorSignUp";
+import TutorUpdate from "../screens/TutorUpdate";
+
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -57,6 +60,9 @@ const Navigation = () => {
           {state.loggedIn ? (
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               <Stack.Screen name="Drawer" component={drawer} />
+              <Stack.Screen name="Principal" component={Principal} />
+              <Stack.Screen name="TutorSignUp" component={TutorSignUp} />
+              <Stack.Screen name="TutorUpdate" component={TutorUpdate} />
             </Stack.Navigator>
           ) : (
             <Stack.Navigator screenOptions={{ headerShown: false }}>

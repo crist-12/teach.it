@@ -11,18 +11,33 @@ import { Text, Icon, Input } from "react-native-elements";
 import CardForm from "../forms/CardForm";
 import Alert from "../shared/Alert";
 import {Context as AuthContext} from "../../providers/AuthContext";
+import { Context as TeachItContext } from "../../providers/TeachItContext";
+import Toast from "react-native-toast-message";
 const { width, height } = Dimensions.get("window");
 
 const Principal = ({navigation}) => {
   const {state, signOut} = useContext(AuthContext);
+  const {state: teachItState, getTutors, clearMessage} = useContext(TeachItContext);
 
   const [error, setError] = useState(false);
   const [user, setUser] = useState(false);
 
+  useEffect(() => {
+    getTutors();
+  }, []);
 
   useEffect(() => {
-    setError(state.errorMessage);
-  }, [state.errorMessage]);
+    console.log(teachItState);
+  }, [teachItState]);
+
+  useEffect(() => {
+    if (teachItState.errorMessage) {
+      Toast.show({
+        text2: teachItState.errorMessage,
+      });
+      clearMessage();
+    }
+  }, [teachItState.errorMessage]);
 
   useEffect(() => {
     setUser(state.user);
@@ -31,8 +46,8 @@ const Principal = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
       <StatusBar barStyle="light-content" />
-
       <View style={styles.head}>
       
         <View style={styles.buscar}>
@@ -54,6 +69,7 @@ const Principal = ({navigation}) => {
 
       <ScrollView style={{ width: width, paddingLeft: width * 0.05 }}>
         {error ? <Alert title={error} type="error" /> : null}
+        
         <CardForm
           clases="Musica"
           tutor="Benito Martinez"
