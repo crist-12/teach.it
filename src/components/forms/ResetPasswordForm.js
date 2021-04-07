@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { Input, Button, ThemeConsumer } from "react-native-elements"; //https://reactnativeelements.com/docs/customization/
+import { Input, Button } from "react-native-elements"; //https://reactnativeelements.com/docs/customization/
 import { validate } from "email-validator";
 import Alert from "../shared/Alert";
 import { Context as AuthContext } from "../../providers/AuthContext";
+import theme from "../../theme";
 
 const ResetPasswordForm = ({ navigation }) => {
   const { state, resetPassword, clearErrorMessage } = useContext(AuthContext);
@@ -37,39 +38,35 @@ const ResetPasswordForm = ({ navigation }) => {
   };
 
   return (
-    <ThemeConsumer>
-      {({ theme }) => (
-        <View>
-          {error ? <Alert title={error} type="error" /> : null}
-          <Input
-            placeholder="Email"
-            leftIcon={{
-              type: "font-awesome",
-              name: "envelope-o",
-              color: theme.colors.primary,
-              style: { marginRight: 12 },
-            }}
-            value={email}
-            onChangeText={setEmail}
-            onBlur={() => {
-              handleVerify("email");
-            }}
-            autoCapitalize="none"
-            errorMessage={
-              emailError
-                ? "Debes ingresar tu cuenta de correo electrónico"
-                : null
-            }
-          />
-          <Button
-            title="Restablecer Contraseña"
-            titleStyle={styles.buttonTitle}
-            onPress={() => handleVerify("reset")}
-            buttonStyle={styles.buttons}
-          />
-        </View>
-      )}
-    </ThemeConsumer>
+    <View>
+      {error ? <Alert title={error} type="error" /> : null}
+      <Input
+        placeholder="Email"
+        leftIcon={{
+          type: "font-awesome",
+          name: "envelope-o",
+          color: theme.colors.primary,
+          style: { marginRight: 12 },
+        }}
+        value={email}
+        onChangeText={setEmail}
+        onBlur={() => {
+          handleVerify("email");
+        }}
+        autoCapitalize="none"
+        errorMessage={
+          emailError
+            ? "Debes ingresar tu cuenta de correo electrónico"
+            : null
+        }
+      />
+      <Button
+        title="Restablecer Contraseña"
+        titleStyle={styles.buttonTitle}
+        onPress={() => handleVerify("reset")}
+        buttonStyle={styles.buttons}
+      />
+    </View>
   );
 };
 
