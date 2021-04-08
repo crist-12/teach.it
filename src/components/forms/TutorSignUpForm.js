@@ -4,10 +4,12 @@ import { Context as AuthContext } from "../../providers/AuthContext";
 import { StyleSheet, View, Dimensions } from "react-native";
 import { categories, universities } from "../../utils";
 import { Input, Button, Text } from "react-native-elements";
-import CheckBox from '@react-native-community/checkbox';
 import { Picker } from "@react-native-picker/picker";
 import Alert from "../shared/Alert";
 import theme from "../../theme";
+
+import CustomMultiPicker from "react-native-multiple-select-list";
+
 
 const { width, height } = Dimensions.get("screen");
 
@@ -71,11 +73,13 @@ const TutorSignUpForm = ({ navigation }) => {
     return selected;
    };
 
-  const handlerCheck = (id, valor) =>{
-    const index = categories.findIndex(category=> category.value === id);
-    console.log(valor);
-    categories[index].checked = valor;
+  const handlerCheck = (id,valor) =>{
+   
+    
+    categories[id].checked =  !categories[id].checked;
+    console.log(categories[0].checked);
    };
+   
 
   return (
     <View>
@@ -105,17 +109,25 @@ const TutorSignUpForm = ({ navigation }) => {
         inputStyle={styles.input}
       />
       <Text style={styles.labels}>Categorías de tutoría que brindas</Text>
-      {categories.map((category) => (
-        <View style={styles.categoriesContainer} key={category.value}>
-          <CheckBox
-            disabled={false}
-            value={category.checked}
-            onValueChange={(newValue)=>handlerCheck(category.value, newValue)}
-            tintColors={{ true: '#01463f', false: '#01463fb' }}
-          />
-          <Text>{category.description}</Text>
+      {categories.map((category) => ( 
+        <View  key={category.value}>
+        <CustomMultiPicker
+        options={category}
+        returnValue={"label"} // label or value
+        callback={()=>{ handlerCheck(category.value,category.checked) }} // callback, array of selected items
+        rowBackgroundColor={"#eee"}
+        rowHeight={40}
+        rowRadius={5}
+        iconColor={"#00a2dd"}
+        iconSize={30}
+        selectedIconName={"ios-checkmark-circle-outline"}
+        unselectedIconName={"ios-radio-button-off-outline"}
+        scrollViewHeight={height*0.05}   
+        />
         </View>
-          ))}
+        
+      ))}
+      
       <Text style={styles.labels}>Información acerca de ti</Text>
       <Input
         labelStyle={styles.input}
