@@ -70,14 +70,24 @@ const TutorSignUpForm = ({ navigation }) => {
       if(category.checked === true)
         selected.push(category.description);
     });
+    cat();
     return selected;
    };
-
+   const cat =()=>{
+    categories.map((category) => (
+      category.checked=false
+     ))
+   };
+   useEffect(()=>{
+    cat();
+   },[]);
   const handlerCheck = (id,valor) =>{
    
-    
-    categories[id].checked =  !categories[id].checked;
-    console.log(categories[0].checked);
+    console.log(categories[id].checked);
+    categories[id].checked =  !valor;
+    console.log(categories[id].description);
+    console.log(categories[id].value);
+    console.log(categories[id].checked);
    };
    
 
