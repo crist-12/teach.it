@@ -1,13 +1,44 @@
-import React from "react";
+import React,{ useContext, useState, useEffect } from "react";
 import { StyleSheet, Dimensions, View, StatusBar, ScrollView, ImageBackground} from "react-native";
 import { Text, Icon, Button,Input,Header} from "react-native-elements";
 import CardForm from "../forms/CardForm";
-
+import Alert from "../shared/Alert";
+import {Context as AuthContext} from "../../providers/AuthContext";
+import { Context as TeachItContext } from "../../providers/TeachItContext";
+import Toast from "react-native-toast-message";
 
 const { width, height } = Dimensions.get("window");
 
 const Discover = ({navigation}) => {
+  const {state, signOut} = useContext(AuthContext);
+  const {state: teachItState, getTutors, clearMessage} = useContext(TeachItContext);
 
+  const [error, setError] = useState(false);
+  const [user, setUser] = useState(false);
+  const [tutoresA,settutor]=useState(false)
+  useEffect(() => {
+    getTutors();
+  }, []);
+
+  useEffect(() => {
+     
+  }, [teachItState]);
+
+  useEffect(() => {
+    if (teachItState.errorMessage) {
+      if (teachItState.errorMessage !== "NotTutor"){
+        Toast.show({
+          text2: teachItState.errorMessage,
+        });
+        clearMessage();
+      } 
+      
+    }
+  }, [teachItState.errorMessage]);
+
+  useEffect(() => {
+    setUser(state.user);
+  }, [state.user]);
     
   return (
     <View style={styles.container}>
@@ -36,29 +67,20 @@ const Discover = ({navigation}) => {
       </View>
      
       <ScrollView style={{width:width,paddingLeft:width*0.05}}>
+      {error ? <Alert title={error} type="error" /> : null}
         
-        <CardForm
-
-        clases="Musica"
-        tutor="Benito Martinez"
-        
-       
+        {teachItState.tutors.map((tutoria) => ( 
+        <CardForm key={tutoria.id}
+        clases={tutoria.categories[1]}
+        tutor={tutoria.name}
+        hora="15:00"
         disponible="1"
-        />
-        <CardForm
-
-        clases="Filosofia"
-        tutor="Armando hoyos"
-        hora="16:00"
-        tutoria="1"
-        />
-        <CardForm
-
-        clases="Programacion"
-        tutor="Thomas A. Anderson"
-        hora="17:00"
-     
-        />
+        
+        navigation={navigation}
+      />
+        
+      ))}
+        
         
       </ScrollView>
       </View>

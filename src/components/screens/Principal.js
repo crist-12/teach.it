@@ -21,13 +21,15 @@ const Principal = ({navigation}) => {
 
   const [error, setError] = useState(false);
   const [user, setUser] = useState(false);
-
+  const [tutoresA,settutor]=useState(false)
   useEffect(() => {
     getTutors();
   }, []);
 
   useEffect(() => {
-    console.log(teachItState.tutors); //Datos de los tutores que deberian ir en la pantalla, se sacan de este estado
+  // console.log(teachItState.tutors[0].name);//Datos de los tutores que deberian ir en la pantalla, se sacan de este estado
+    
+    
   }, [teachItState]);
 
   useEffect(() => {
@@ -73,28 +75,21 @@ const Principal = ({navigation}) => {
       <ScrollView style={{ width: width, paddingLeft: width * 0.05 }}>
         {error ? <Alert title={error} type="error" /> : null}
         
-        <CardForm
-          clases="Musica"
-          tutor="Benito Martinez"
-          hora="15:00"
-          tutoria="1"
-          disponible="1"
-          navigation={navigation}
-        />
-        <CardForm
-          clases="Filosofia"
-          tutor="Armando hoyos"
-          hora="16:00"
-          tutoria="1"
-          navigation={navigation}
-        />
-        <CardForm
-          clases="Programacion"
-          tutor="Thomas A. Anderson"
-          hora="17:00"
-          tutoria="1"
-          navigation={navigation}
-        />
+        {teachItState.tutors.map((tutoria) => ( 
+        <CardForm key={tutoria.id}
+        clases={tutoria.categories[0]}
+        tutor={tutoria.name}
+        hora="15:00"
+        tutoria="1"
+        disponible="1"
+        navigation={navigation}
+      />
+        
+      ))}
+        
+
+        
+       
       </ScrollView>
     </View>
   );

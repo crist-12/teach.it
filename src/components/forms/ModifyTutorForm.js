@@ -3,11 +3,12 @@ import { Context as TeachItContext } from "../../providers/TeachItContext";
 import { Context as AuthContext } from "../../providers/AuthContext";
 import { StyleSheet, View, Dimensions } from "react-native";
 import { Input, Button, Text } from "react-native-elements";
-import CheckBox from '@react-native-community/checkbox';
 import { categories, universities } from "../../utils";
 import { Picker } from "@react-native-picker/picker";
 import Alert from "../shared/Alert";
 import theme from "../../theme";
+
+import CustomMultiPicker from "react-native-multiple-select-list";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -28,12 +29,8 @@ const ModifyTutorForm = ({ navigation }) => {
       setAbout(teachItState.currentTutor.about);
       setOcupation(teachItState.currentTutor.ocupation);
       //lenar categorias seleccionadas
-      categories.forEach(category => {
-        teachItState.currentTutor.categories.forEach( cat =>{
-          if(cat === category.description) //verificamos los nombres que esten en el estado del contexto
-            category.checked= true; //si esta se marca check
-        })
-      });
+      cat()
+      
     }
   }, [teachItState.currentTutor]);
 
@@ -85,12 +82,24 @@ const ModifyTutorForm = ({ navigation }) => {
     });
     return selected;
    };
+   const cat =()=>{
+    categories.map((category) => {
+      
+      category.checked=false
+      
+   })
 
-  const handlerCheck = (id, valor) =>{
-    const index = categories.findIndex(category=> category.value === id);
-    categories[index].checked = valor;
    };
 
+   const handlerCheck = (id,valor) =>{
+   
+    console.log(categories[id].checked);
+    categories[id].checked =  !valor;
+    console.log(categories[id].description);
+    console.log(categories[id].value);
+    console.log(categories[id].checked);
+   };
+  
   return (
     <View>
       {error ? <Alert type="error" title={error} /> : null}
@@ -120,17 +129,28 @@ const ModifyTutorForm = ({ navigation }) => {
         inputStyle={styles.input}
       />
       <Text style={styles.labels}>Categorías de tutoría que brindas</Text>
-      {categories.map((category) => (
-        <View style={styles.categoriesContainer} key={category.value}>
-          <CheckBox
-            disabled={false}
-            value={category.checked}
-            onValueChange={(newValue)=>handlerCheck(category.value, newValue)}
-            tintColors={{ true: '#01463f', false: '#01463fb' }}
-          />
-          <Text>{category.description}</Text>
+      {categories.map((category) => ( 
+        <View  key={category.value}>
+        <CustomMultiPicker
+        options={category}
+        
+        returnValue={category.checked} // label or value
+        callback={()=>{ handlerCheck(category.value,category.checked) }} // callback, array of selected items
+        rowBackgroundColor={"#eee"}
+        rowHeight={40}
+        rowRadius={5}
+        iconColor={"#00a2dd"}
+        iconSize={30}
+        selectedIconName={"ios-checkmark-circle-outline"}
+        unselectedIconName={"ios-radio-button-off-outline"}
+        scrollViewHeight={height*0.05}   
+        
+        />
         </View>
-          ))}
+        
+      ))}
+     
+
       <Text style={styles.labels}>Información acerca de ti</Text>
       <Input
         labelStyle={styles.input}
