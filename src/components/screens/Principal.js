@@ -13,7 +13,10 @@ import Alert from "../shared/Alert";
 import {Context as AuthContext} from "../../providers/AuthContext";
 import { Context as TeachItContext } from "../../providers/TeachItContext";
 import Toast from "react-native-toast-message";
+import {auth} from '../../firebase/index'
+
 const { width, height } = Dimensions.get("window");
+
 
 const Principal = ({navigation}) => {
   const {state, signOut} = useContext(AuthContext);
@@ -26,11 +29,15 @@ const Principal = ({navigation}) => {
     getTutors();
   }, []);
 
+
+  console.log(auth)
+
   useEffect(() => {
   // console.log(teachItState.tutors[0].name);//Datos de los tutores que deberian ir en la pantalla, se sacan de este estado
-    
+    console.log(teachItState);
     
   }, [teachItState]);
+
 
   useEffect(() => {
     if (teachItState.errorMessage) {
@@ -76,20 +83,19 @@ const Principal = ({navigation}) => {
         {error ? <Alert title={error} type="error" /> : null}
         
         {teachItState.tutors.map((tutoria) => ( 
+          
         <CardForm key={tutoria.id}
         clases={tutoria.categories[0]}
         tutor={tutoria.name}
         hora="15:00"
         tutoria="1"
         disponible="1"
+        about = {tutoria.about}
+        categories = {tutoria.categories}
+        universidad = {tutoria.university}
         navigation={navigation}
-      />
-        
+      /> 
       ))}
-        
-
-        
-       
       </ScrollView>
     </View>
   );

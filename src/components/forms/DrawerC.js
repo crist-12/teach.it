@@ -72,6 +72,21 @@ function DrawerContent(props) {
                 props.navigation.navigate("Profile");
               }}
             />
+            <DrawerItem
+              style={styles.it}
+              icon={({ color, size }) => (
+                <Icon
+                  name="person"
+                  color="#fe5722"
+                  style={{ transform: [{ rotateY: "0deg" }] }}
+                />
+              )}
+              label="Mensajes"
+              labelStyle={{ color: "#fe5722" }}
+              onPress={() => {
+                props.navigation.navigate("HomeScreen");
+              }}
+            />
           </View>
         </View>
         <DrawerContentScrollView {...props}>

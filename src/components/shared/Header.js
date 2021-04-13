@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 import {View, Text, StyleSheet, SafeAreaView, ScrollView, Image, TouchableOpacity} from "react-native"
 import {AirbnbRating, Rating} from 'react-native-elements'
@@ -8,17 +8,23 @@ import {Ionicons, Entypo} from '@expo/vector-icons'
 
 
 
-const Header = ({navigation})=>{
+const Header = ({navigation, nombre, universidad, temas})=>{
+
+    useEffect(() => {
+        console.log(nombre)
+        console.log(universidad)
+    }, [nombre])
+
         return(
             <View style={styles.container}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate("Principal")}>
                     <Ionicons name="md-arrow-back" color="#fff" size={32}/>
                 </TouchableOpacity>
                 <View style={styles.divAvatar}>
                     <View style={styles.avatarCircle}>
                     </View>
-                    <Text style={styles.userText}>Christopher E. Ortiz</Text>
-                    <Text style={styles.collegeText}>Universidad Católica de Honduras</Text>
+                    <Text style={styles.userText}>{nombre}</Text>
+                    <Text style={styles.collegeText}>{universidad}</Text>
                 </View>
 
                 <View style={styles.userInfoWrapper}>
@@ -39,7 +45,7 @@ const Header = ({navigation})=>{
                     </View>
                     <View style={styles.userInfoItem}>
                         <Text style={styles.userInfoTitle}>4</Text>
-                        <Text style={styles.userInfoSubTitle}>Temas</Text>
+                        <Text style={styles.userInfoSubTitle}>{temas}</Text>
                     </View>
                 </View>
                

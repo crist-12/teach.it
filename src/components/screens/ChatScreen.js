@@ -6,7 +6,7 @@ import { Platform } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { Keyboard } from 'react-native'
 import * as firebase from 'firebase'
-import {db, auth} from '../firebase'
+import {db, auth} from '../../firebase/index'
 
 const ChatScreen = ({navigation, route}) => {
 
@@ -118,12 +118,12 @@ useLayoutEffect(()=>{
                            data.email === auth.currentUser.email ? (
                                <View key={id} style={styles.receiver}>
                                    <Text style= {styles.receiverText}>{data.message}</Text>
-                                   <Text style= {styles.receiverName}>{data.message}</Text>
+                                   <Text style= {styles.receiverName}>{data.email}</Text>
                                </View>
                            ): (
                             <View style={styles.sender}>
                             <Text style= {styles.senderText}>{data.message}</Text>
-                            <Text style= {styles.senderName}>{data.message}</Text>
+                            <Text style= {styles.senderName}>{data.email}</Text>
                         </View>
                            )
                        ))

@@ -8,10 +8,13 @@ const ButtonCall = ({
     callback,
     color
 }) => {
+
+    const funcion  = callback;
+
+
     return(
         <View>
-             <Button style={styles.buttonStyle} title={title} onPress={()=>callback}>
-
+             <Button style={styles.buttonStyle} title={title} onPress={()=>showFuncion}>
              </Button>
         </View>
     )

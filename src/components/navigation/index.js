@@ -13,6 +13,11 @@ import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
 import TutorSignUp from "../screens/TutorSignUp";
 import TutorUpdate from "../screens/TutorUpdate";
+import CreditCard from '../screens/CreditCard'
+import AddChatScreen2 from '../screens/AddChatScreen2'
+import ChatScreen from '../screens/ChatScreen'
+import HomeScreen from '../screens/HomeScreen'
+
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -42,6 +47,10 @@ function drawer(){
         options={{
           title:'TutorUpdate', 
         }}/>
+        <Drawer.Screen name="HomeScreen" component={HomeScreen} 
+        options={{
+          title:'Mensajes', 
+        }}/>
       </Drawer.Navigator>
   );
 };
@@ -70,6 +79,10 @@ const Navigation = () => {
               <Stack.Screen name="Principal" component={Principal} />
               <Stack.Screen name="TutorSignUp" component={TutorSignUp} />
               <Stack.Screen name="TutorUpdate" component={TutorUpdate} />
+              <Stack.Screen name="CreditCard" component={CreditCard} />
+              <Stack.Screen name="AddChatScreen2" component={AddChatScreen2} />
+              <Stack.Screen name="ChatScreen" component={ChatScreen} />
+              <Stack.Screen name="HomeScreen" component={HomeScreen} />
             </Stack.Navigator>
           ) : (
             <Stack.Navigator screenOptions={{ headerShown: false }}>

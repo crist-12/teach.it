@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, View,Dimensions,ImageBackground,TouchableOpacity } from "react-native";
 import { Input, Button, Text, ThemeConsumer } from "react-native-elements"; //https://reactnativeelements.com/docs/customization/
+import {setTutor, getTutor, setUniversity, setAbout, setCategories} from '../shared/data_store'
+
 
 const { width, height } = Dimensions.get("window");
 
@@ -10,13 +12,30 @@ const CardForm = ({
     hora,
     tutoria,
     disponible,
+    categories,
+    about,
+    universidad,
     navigation
 }) => {
     
+  let navig = navigation;
   
-  
-  
+  // clases, tutor, hora, tutoria, disponible
     
+  const enterProfile = () =>{
+
+    setTutor(tutor);
+    setUniversity(universidad);
+    setAbout(about);
+    setCategories(categories);
+  
+    navigation.navigate("Profile",{
+      tutor : getTutor(),
+      universidad: {universidad}
+    })
+    
+
+  }
  
   
     return (
@@ -59,13 +78,13 @@ const CardForm = ({
              <TouchableOpacity  style={styles.button}>
                   <Text style={styles.buttonText}>Ir Tutoria</Text>
              </TouchableOpacity>
-             <TouchableOpacity   onPress={()=>{navigation.navigate("Profile")}} style={styles.button}>
+             <TouchableOpacity   onPress={enterProfile} style={styles.button}>
                   <Text style={styles.buttonText}>Perfil</Text>
              </TouchableOpacity>
             </View>
              :
              <View style={styles.Vbtn} >
-             <TouchableOpacity  onPress={()=>{navigation.navigate("Profile")}}  style={styles.button}>
+             <TouchableOpacity  onPress={()=>enterProfile}  style={styles.button}>
                   <Text style={styles.buttonText}>Perfil</Text>
              </TouchableOpacity>
             </View>

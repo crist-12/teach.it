@@ -2,20 +2,20 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { SafeAreaView, View } from 'react-native'
 import { StyleSheet } from 'react-native'
-import {Text} from 'react-native-elements'
-import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
+import { Text } from 'react-native-elements'
+
 import { AntDesign, SimpleLineIcons } from '@expo/vector-icons'
-import {ScrollView} from 'react-native-gesture-handler'
+import { ScrollView } from 'react-native-gesture-handler'
 import CustomListItem from '../shared/CustomListItems'
-import { auth, db } from '../firebase'
-import AddChatScreen from '../screens/AddChatScreen'
+import { auth, db } from '../../firebase/index'
+import AddChatScreen2 from '../screens/AddChatScreen2'
 
 const HomeScreen = ({navigation}) => {
 
     const [chats, setChats] = useState([]);
 
     useEffect(()=>{
-        const ubsuscribe = db.collection('chats').onSnapshot(snapshot => (
+        const unsubscribe = db.collection('chats').onSnapshot(snapshot => (
             setChats(snapshot.docs.map(doc =>({
                 id: doc.id,
                 data: doc.data()
@@ -36,7 +36,7 @@ const HomeScreen = ({navigation}) => {
             headerLeft: () => (
             <View style={{marginLeft: 20, backgroundColor: "black"}}>
                 <TouchableOpacity onPress={signOutUser} activeOpacity={0.5}>
-                <Avatar rounded source = {{ uri: auth?.currentUser?.photoUrl }}/>
+               
                 </TouchableOpacity>
             </View>
             ),
@@ -68,11 +68,10 @@ const HomeScreen = ({navigation}) => {
 
 
     const enterChat = (id, chatName) =>{
-       navigation.navigate("Chat", {
+       navigation.navigate("ChatScreen", {
            id,
            chatName
        })
-
     }
 
 

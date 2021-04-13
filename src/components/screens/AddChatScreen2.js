@@ -1,9 +1,9 @@
 import React, { useLayoutEffect } from 'react'
 import {useState} from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import {Input, Button} from 'react-native-elements'
 import {Icon} from 'react-native-vector-icons/FontAwesome'
-import {db} from '../firebase'
+import {db} from '../../firebase/index'
 
 const AddChatScreen2 = ({navigation}) => {
 
@@ -27,19 +27,31 @@ const AddChatScreen2 = ({navigation}) => {
             }).catch((error)=>{
                 alert(error);
             })
+
+            navigation.navigate("Home")
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <Input
                 placeholder= "Ingrese un nombre de chat"
                 value = {input}
                 onChangeText = {(text)=> setInput(text)}
                 onSubmitEditing = {createChat}
                 /> 
-            <Button onPress={createChat} title="Crear"/>
+            <Button onPress={createChat} title="Crear nuevo chat"/>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    }
+})
+
+
 
 export default AddChatScreen2
