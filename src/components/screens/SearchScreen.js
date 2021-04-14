@@ -1,23 +1,22 @@
 import React,{ useContext, useState, useEffect } from "react";
-import { StyleSheet, Dimensions, View, StatusBar, ScrollView, ImageBackground, TouchableOpacity,Keyboard} from "react-native";
-import { Text, Icon, Button,Input,Header} from "react-native-elements";
-import CardForm from "../forms/CardForm";
+import { StyleSheet, Dimensions, View, StatusBar, ScrollView, TouchableOpacity} from "react-native";
+import { Text,} from "react-native-elements";
+import SearchForm from "../forms/SearchForm";
 import Alert from "../shared/Alert";
 import {Context as AuthContext} from "../../providers/AuthContext";
 import { Context as TeachItContext } from "../../providers/TeachItContext";
 import Toast from "react-native-toast-message";
-
+import {Ionicons} from '@expo/vector-icons'
 const { width, height } = Dimensions.get("window");
 
-const Discover = ({navigation}) => {
+const Search = ({ route ,navigation}) => {
   const {state, signOut} = useContext(AuthContext);
   const {state: teachItState, getTutors, clearMessage} = useContext(TeachItContext);
-
-  const [search,setSearch]=useState("");  
+  console.log(route.params.search);
+  const {search}=route.params;
   const [error, setError] = useState(false);
   const [user, setUser] = useState(false);
   const [tutoresA,settutor]=useState(false)
-  const scr="Discover"
   useEffect(() => {
     getTutors();
   }, []);
@@ -48,43 +47,30 @@ const Discover = ({navigation}) => {
       <StatusBar barStyle="light-content" />
       
       <View style={styles.head}>
+      <View style={styles.iback}>
+      <TouchableOpacity onPress={()=>navigation.navigate(route.params.scr)}>
+                    <Ionicons name="md-arrow-back" color="#fff" size={32}/>
+       </TouchableOpacity>
+      </View >
       <View style={styles.buscar}>
-          <TouchableOpacity  style={styles.buscar} onPress={() =>  search?(Keyboard.dismiss(),navigation.navigate('SearchScreen', {search,scr}),setSearch("")):alert("Ingrese un tutor")}>
-          <Input
-            placeholder="Buscar"
-            placeholderTextColor="#fff"
-            value={search}
-            onChangeText={setSearch}
-            rightIcon={{
-              type: "font-awesome",
-              name: "search",
-              color: "#fff",
-              style: { marginRight: 12 },
-              
-            }}
-            inputStyle={styles.input}
-          />
-          </TouchableOpacity>
-        </View>
+          <Text style={styles.buscar}>{search}</Text>
+            </View>
       </View >
       <View style={styles.titulo}>
-        <Text  style={styles.txtTitulo}>Descubrir</Text>
+        <Text  style={styles.txtTitulo}>Busquedas</Text>
       </View>
      
       <ScrollView style={{width:width,paddingLeft:width*0.05}}>
       {error ? <Alert title={error} type="error" /> : null}
         
         {teachItState.tutors.map((tutoria) => ( 
-        <CardForm key={tutoria.id}
-        clases={tutoria.categories[0]}
+        <SearchForm key={tutoria.id}
         tutor={tutoria.name}
-        hora="15:00"
-        disponible="1"
         about = {tutoria.about}
         categories = {tutoria.categories}
         universidad = {tutoria.university}
         navigation={navigation}
-      /> 
+      />
         
       ))}
         
@@ -102,19 +88,33 @@ const styles = StyleSheet.create({
 
     },
     buscar:{
-      flexDirection:"row",
-      justifyContent:"space-between",
-      width:width,
-      height:55,
-      backgroundColor:"#232425",
-      
+        paddingTop:5,
+       paddingLeft:width*0.12,
+        width:width,
+        height:55,
+        backgroundColor:"#232425",
+        fontSize:25,
+        color:"#fff",
+        borderColor:"#fff",
+        borderWidth:0,
+       
+            
  
   },
   head:{
     width:width,
+    flexDirection:"row"
   },
-  input:{
-    color:"#fff"
+  iback:{
+    paddingTop:10,
+       paddingLeft:width*0.02,
+        width:width*0.12,
+        height:55,
+        backgroundColor:"#232425",
+        fontSize:25,
+        color:"#fff",
+        borderColor:"#fff",
+        borderWidth:0,
   },
   imageBackgroundContainer: {
     width:width,
@@ -153,4 +153,4 @@ const styles = StyleSheet.create({
     
   });
 
-export default Discover;
+export default Search;

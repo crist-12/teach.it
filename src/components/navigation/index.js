@@ -17,7 +17,7 @@ import CreditCard from '../screens/CreditCard'
 import AddChatScreen2 from '../screens/AddChatScreen2'
 import ChatScreen from '../screens/ChatScreen'
 import HomeScreen from '../screens/HomeScreen'
-
+import SearchScreen from '../screens/SearchScreen'
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -50,6 +50,10 @@ function drawer(){
         <Drawer.Screen name="HomeScreen" component={HomeScreen} 
         options={{
           title:'Mensajes', 
+        }}/>
+        <Drawer.Screen name="SearchScreen" component={SearchScreen} 
+        options={{
+          title:'SearchScreen', 
         }}/>
       </Drawer.Navigator>
   );

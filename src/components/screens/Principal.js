@@ -6,6 +6,7 @@ import {
   StatusBar,
   ScrollView,
   TouchableOpacity,
+  Keyboard
 } from "react-native";
 import { Text, Icon, Input } from "react-native-elements";
 import CardForm from "../forms/CardForm";
@@ -25,6 +26,8 @@ const Principal = ({navigation}) => {
   const [error, setError] = useState(false);
   const [user, setUser] = useState(false);
   const [tutoresA,settutor]=useState(false)
+  const [search,setSearch]=useState("");
+  const scr="Principal";
   useEffect(() => {
     getTutors();
   }, []);
@@ -62,16 +65,22 @@ const Principal = ({navigation}) => {
       <View style={styles.head}>
       
         <View style={styles.buscar}>
+          <TouchableOpacity  style={styles.buscar} onPress={() =>  search?(Keyboard.dismiss(),navigation.navigate('SearchScreen', {search,scr}),setSearch("")):alert("Ingrese un tutor")}>
           <Input
             placeholder="Buscar"
             placeholderTextColor="#fff"
+            value={search}
+            onChangeText={setSearch}
             rightIcon={{
               type: "font-awesome",
               name: "search",
               color: "#fff",
               style: { marginRight: 12 },
+              
             }}
+            inputStyle={styles.input}
           />
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.titulo}>
@@ -152,6 +161,9 @@ const styles = StyleSheet.create({
     paddingRight: 7,
     justifyContent: "center",
     alignContent: "center",
+  },
+  input:{
+    color:"#fff"
   },
 });
 

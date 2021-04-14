@@ -6,12 +6,12 @@ import {setTutor, getTutor, setUniversity, setAbout, setCategories} from '../sha
 
 const { width, height } = Dimensions.get("window");
 
-const CardForm = ({
-    clases,
+const SearchForm = ({
+   
     tutor,
-    hora,
+ 
     tutoria,
-    disponible,
+  
     categories,
     about,
     universidad,
@@ -48,41 +48,19 @@ const CardForm = ({
             source={require("../../../assets/fondo.jpg")}
             style={styles.imageBackgroundContainer}
             >
-              <Text style={styles.tclases}>{clases}</Text>
+              
+              <Text style={styles.tclases}>Tutor: {tutor}</Text> 
             </ImageBackground>
            </View>
            <View style={styles.cartaB}>
-             <Text style={styles.tinfo}>Tutor: {tutor}</Text>
-             {hora?<Text style={styles.tinfo}>Hora: {hora}</Text>:null}
-            
-
-            {
-              disponible==1?
-              <View style={{flexDirection:"row", alignContent:"center"}}>
-            <View style={styles.circleg} />
-            <Text style={styles.tdisp}> Disponible</Text>
-            </View>
-              :
-              <View style={{flexDirection:"row", alignContent:"center"}}>
-            <View style={styles.circler} />
-            <Text style={styles.tdisp}> No Disponible</Text>
-            </View>
-            }
-            
+           
+             {categories.map((category) => ( 
+                 <Text key={category}  style={styles.tinfo}>- {category}</Text>
+             ))}
             
            </View>
            {
 
-             tutoria==1?
-             <View style={styles.Vbtn} >
-             <TouchableOpacity  style={styles.button}>
-                  <Text style={styles.buttonText}>Ir Tutoria</Text>
-             </TouchableOpacity>
-             <TouchableOpacity   onPress={enterProfile} style={styles.button}>
-                  <Text style={styles.buttonText}>Perfil</Text>
-             </TouchableOpacity>
-            </View>
-             :
              <View style={styles.Vbtn} >
              <TouchableOpacity  onPress={enterProfile}  style={styles.button}>
                   <Text style={styles.buttonText}>Perfil</Text>
@@ -118,7 +96,7 @@ const CardForm = ({
     },
     cartaT:{
       
-      flex:1/2,
+      flex:1/3,
       backgroundColor:"#4ED327",
       borderColor:"#fff",
       borderTopRightRadius:14,
@@ -128,7 +106,7 @@ const CardForm = ({
     },
     cartaB:{
       
-      flex:1/3,
+      flex:1/2,
       backgroundColor:"#484848",
       justifyContent:"center",
       borderColor:"#fff",
@@ -144,7 +122,7 @@ const CardForm = ({
     },
     tclases:{
       alignSelf:"flex-start",
-      top:"70%",
+      top:"60%",
       color:"#fff",
       fontSize:30,
       marginLeft:"5%"
@@ -203,4 +181,4 @@ const CardForm = ({
   },
   });
   
-  export default CardForm;
+  export default SearchForm;
