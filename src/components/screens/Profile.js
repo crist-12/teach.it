@@ -1,11 +1,11 @@
 import React, {useEffect, useLayoutEffect} from 'react';
 import Header from '../shared/Header';
-import {View, Text, StyleSheet, SafeAreaView, ScrollView, StatusBar, Button} from "react-native";
+import {View, Text, StyleSheet, SafeAreaView, ScrollView, StatusBar, Button, TouchableOpacity,Dimensions} from "react-native";
 import {theme} from '../../theme/index';
 import ButtonCall from '../../components/forms/ButtonCall';
 import {getAbout, getCategories, getTutor, getUniversity} from '../shared/data_store'
 import { Controller } from 'react-hook-form';
-
+const { width, height } = Dimensions.get("window");
 
 const Profile = ({navigation, clases, tutor, hora, tutoria, disponible, universidad})=>{
 
@@ -50,15 +50,21 @@ useLayoutEffect(() => {
                     <Text style={styles.contentAbout}>{about}</Text>
                     <Text></Text>
                     <Text style={styles.textAbout}>Categorías</Text>
-                    <Text style={styles.contentAbout}>{categories}</Text>
+                    
+                    {categories.map((category) => ( 
+                 <Text key={category}  style={styles.contentAbout}>- {category}</Text>
+             ))}
               </View>
 
               <View>
-          
-                <Button title="Pagar" onPress={()=>navigation.navigate("CreditCard")}></Button>
-                <Text></Text>
-                <Button title="Mensajear" onPress = {()=>navigation.navigate("AddChatScreen2")}/>
-                <Text></Text>
+                
+              <TouchableOpacity  onPress={()=>navigation.navigate("CreditCard")} style={styles.button}>
+                  <Text>Pagar</Text>
+             </TouchableOpacity>
+             <TouchableOpacity  onPress={()=>navigation.navigate("AddChatScreen2")} style={styles.button}>
+                  <Text>Mensajear</Text>
+             </TouchableOpacity>
+               
               </View>
           </SafeAreaView>
         )
@@ -82,7 +88,14 @@ const styles = StyleSheet.create({
     },
     contentAbout:{
         fontSize: 14
-    }
+    },
+    button: {
+        backgroundColor: "#fe5722",
+        padding: 10,
+        borderRadius: 5,
+        width: width * 0.4,
+      },
+
 })
 
 export default Profile;
