@@ -179,6 +179,74 @@ const clearErrorMessage = (dispatch) => () => {
   dispatch({ type: "errorMessage", payload: "" });
 };
 
+//Google 
+const isUserEqual = (googleUser, firebaseUser) => {
+  if (firebaseUser) {
+    const providerData = firebaseUser.providerData;
+    for (var i = 0; i < providerData.length; i++) {
+      if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+          providerData[i].uid === googleUser.getBasicProfile().getId()) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+const signInWithGoogle = (dispatch) => (googleUser) =>{
+  const unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
+    unsubscribe();
+    if (!isUserEqual(googleUser, firebaseUser)) {
+      const credential = firebase.auth.GoogleAuthProvider.credential(
+        googleUser.idToken,
+        googleUser.accessToken
+      );
+      firebase
+        .auth()
+        .signInWithCredential(credential)
+        .then((response) => {
+          const uid = response.user.uid;
+          const email = response.user.email
+          const fullname = response.user.displayName
+          const data = {
+            id: uid,
+            email,
+            fullname,
+          };
+          const usersRef = firebase.firestore().collection("users");
+          usersRef
+          .doc(uid)
+          .get()
+          .then((firestoreDocument) => {
+            if (!firestoreDocument.exists) {
+              usersRef
+                .doc(uid)
+                .set(data)
+                .then(() => {
+                  dispatch({
+                    type: "signUp",
+                    payload: { user: data, registered: true },
+                  });
+                })
+                .catch((error) => {
+                  dispatch({ type: "errorMessage", payload: error.message });
+                });
+            } else {
+              dispatch({ type: "errorMessage", payload: "" });
+              dispatch({ type: "signIn", payload: firestoreDocument.data() });
+            }
+          });
+        })
+        .catch((error) => { 
+          dispatch({ type: "errorMessage", payload: error.message });
+        });
+    } else {
+      console.log("El usuario ya esta registrado!");
+    }
+  });
+}
+
+
 // Exportar las funcionalidades requeridas al contexto
 export const { Provider, Context } = createDataContext(
   authReducer,
@@ -188,7 +256,8 @@ export const { Provider, Context } = createDataContext(
     signUp,
     persistLogin,
     resetPassword,
-    clearErrorMessage
+    clearErrorMessage,
+    signInWithGoogle
   },
   { user: {}, errorMessage: "", loggedIn: false, loading: true, userCreated: false, passReset: false }
 );

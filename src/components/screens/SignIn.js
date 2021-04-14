@@ -8,92 +8,92 @@ import UpperText from "../shared/UpperText";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../firebase";
 import { Context as AuthContext } from "../../providers/AuthContext";
+import * as Google from "expo-google-app-auth";
+import * as Facebook from 'expo-facebook';
+import getEnvVars from '../../../environment';
 import theme from "../../theme";
 
 const { width, height } = Dimensions.get("screen");
 
 const SignIn = ({ navigation }) => {
-  const { state  } = useContext(AuthContext);
+  const { state, signInWithGoogle } = useContext(AuthContext);
   const [ error, setError ]=useState(false);
   const [ passwordReset, setPasswordReset ] = useState(false);
+  const {androidClientId} = getEnvVars();
 
   //Verifica si se acaba de cambiar la contraseña
   useEffect(() => {
       setPasswordReset(state.passReset);
   }, [state.passReset]);
 
-  const handleGoogleSignIn = () => {
-    let provider = new firebase.auth.GoogleAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then((response) => {
-        //Obtener el Unique Identifier generado para cada usuario
-        const uid = response.user.uid;
-        const email = response.user.email;
-        const fullname = response.user.displayName;
-        //Construir el objeto a enviar a la coleccion de "users"
-        const user = {
-          id: uid,
-          email,
-          fullname
-        };
+  //Inicio de sesion con Google
+  const signInWithGoogleAsync = async() => {
+    try {
+      const result = await Google.logInAsync({
+        androidClientId: androidClientId,
+        scopes: ['profile', 'email'],
+      });
+      
+      if (result.type === 'success') {
+        signInWithGoogle(result)
+        return result.accessToken;
+      } else {
+        return { cancelled: true };
+      }
+    } catch (e) {
+      return { error: true };
+    }
+  }
 
-        //Obtener la coleccion desde Firebase
-        const usersRef = firebase.firestore().collection("users");
-
-        //Inicia sesion y si no estaba registrado se registra el dato en firestore
-        usersRef
-        .doc(uid)
-        .set(user)
-        .then(() => {
-          // Obtener la información del usuario y enviarla a la pantalla Principal
-          navigation.navigate("Principal", { user });
+  async function loginWithFacebook() {
+    await Facebook.initializeAsync({appId: '245307793905300'});
+    const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+      permissions: ['public_profile'],
+    });
+  
+    if (type === 'success') {
+      // Build Firebase credential with the Facebook access token.
+      const credential = firebase.auth.FacebookAuthProvider.credential(token);
+  
+      // Sign in with credential from the Facebook user.
+      firebase
+        .auth()
+        .signInWithCredential(credential)
+        .then((response) => {
+          console.log(response);
+          //Obtener el Unique Identifier generado para cada usuario
+          const uid = response.user.uid;
+          const email = response.user.email;
+          const fullname = response.user.displayName;
+          //Construir el objeto a enviar a la coleccion de "users"
+          const user = {
+            id: uid,
+            email,
+            fullname
+          };
+  
+          //Obtener la coleccion desde Firebase
+          const usersRef = firebase.firestore().collection("users");
+  
+          //Inicia sesion y si no estaba registrado se registra el dato en firestore
+          usersRef
+          .doc(uid)
+          .set(user)
+          .then(() => {
+            // Obtener la información del usuario y enviarla a la pantalla Principal
+            navigation.navigate("Principal", { user });
+          })
+          .catch((error) => {
+            setError(error.message);
+            console.log(error.message);
+          });
         })
-        .catch((error) => {
-          setError(error.message);
-          console.log(error.message);
+        .catch(error => {
+          // Handle Errors here.
+          console.log(error)
         });
-      })
-      .catch((error) => setError(error.message));
-  };
-
-  const handleFacebookSignIn = () => {
-    let provider = new firebase.auth.FacebookAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then((response) => {
-        console.log(response);
-        //Obtener el Unique Identifier generado para cada usuario
-        const uid = response.user.uid;
-        const email = response.user.email;
-        const fullname = response.user.displayName;
-        //Construir el objeto a enviar a la coleccion de "users"
-        const user = {
-          id: uid,
-          email,
-          fullname
-        };
-
-        //Obtener la coleccion desde Firebase
-        const usersRef = firebase.firestore().collection("users");
-
-        //Inicia sesion y si no estaba registrado se registra el dato en firestore
-        usersRef
-        .doc(uid)
-        .set(user)
-        .then(() => {
-          // Obtener la información del usuario y enviarla a la pantalla Principal
-          navigation.navigate("Principal", { user });
-        })
-        .catch((error) => {
-          setError(error.message);
-          console.log(error.message);
-        });
-      })
-      .catch((error) => {setError(error.message); console.log(error.message)});
-  };
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -128,14 +128,14 @@ const SignIn = ({ navigation }) => {
               button
               raised
               type='facebook'
-              onPress={handleFacebookSignIn}
+              onPress={() => loginWithFacebook()}
             />
             <SocialIcon
               title='Iniciar sesión con Google'
               button
               raised
               type='google'
-              onPress={handleGoogleSignIn}
+              onPress={() => signInWithGoogleAsync()}
             />
 
           </View>

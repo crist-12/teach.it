@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingLeft: 10,
     color: theme.colors.primary,
-    marginTop: 10
+    marginTop: 8
   },
   input: {
     fontSize: 12

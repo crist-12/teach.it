@@ -28,7 +28,7 @@ const AddChatScreen2 = ({navigation}) => {
                 alert(error);
             })
 
-            navigation.navigate("Home")
+            navigation.navigate("HomeScreen")
     }
 
     return (

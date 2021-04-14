@@ -82,15 +82,15 @@ const styles = StyleSheet.create({
     marginBottom: 10 
   },
   upperLogo: {
-    width: width * 0.7,
+    width: width * 0.5,
     alignSelf:"center",
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   tutorText: {
     fontSize: 25,
     fontWeight: "bold",
     color: theme.colors.primary,
-    paddingBottom: 25,
+    // paddingBottom: 25,
     textAlign: "center",
   },
 });
