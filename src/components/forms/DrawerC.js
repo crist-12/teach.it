@@ -76,7 +76,8 @@ function DrawerContent(props) {
               style={styles.it}
               icon={({ color, size }) => (
                 <Icon
-                  name="person"
+                  name='sc-telegram'
+                  type='evilicon'
                   color="#fe5722"
                   style={{ transform: [{ rotateY: "0deg" }] }}
                 />

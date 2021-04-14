@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, SafeAreaView, ScrollView, StatusBar, Button, Tou
 import {theme} from '../../theme/index';
 import ButtonCall from '../../components/forms/ButtonCall';
 import {getAbout, getCategories, getTutor, getUniversity} from '../shared/data_store'
-import { Controller } from 'react-hook-form';
+
 const { width, height } = Dimensions.get("window");
 
 const Profile = ({navigation, clases, tutor, hora, tutoria, disponible, universidad})=>{
@@ -59,10 +59,10 @@ useLayoutEffect(() => {
               <View>
                 
               <TouchableOpacity  onPress={()=>navigation.navigate("CreditCard")} style={styles.button}>
-                  <Text>Pagar</Text>
+                  <Text style={styles.buttonText}>Pagar</Text>
              </TouchableOpacity>
              <TouchableOpacity  onPress={()=>navigation.navigate("AddChatScreen2")} style={styles.button}>
-                  <Text>Mensajear</Text>
+                  <Text style={styles.buttonText}>Mensajear</Text>
              </TouchableOpacity>
                
               </View>
@@ -92,10 +92,15 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: "#fe5722",
         padding: 10,
+        height: 40,
         borderRadius: 5,
-        width: width * 0.4,
+        alignSelf: 'stretch',
+        marginVertical: 5,
+        alignItems: 'center'
       },
-
+      buttonText: {
+          color: "white"
+      }
 })
 
 export default Profile;

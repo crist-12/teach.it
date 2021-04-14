@@ -17,7 +17,7 @@ const Header = ({navigation, nombre, universidad, temas})=>{
 
         return(
             <View style={styles.container}>
-                <TouchableOpacity onPress={()=>navigation.navigate("Principal")}>
+                <TouchableOpacity onPress={()=>navigation.goBack()}>
                     <Ionicons name="md-arrow-back" color="#fff" size={32}/>
                 </TouchableOpacity>
                 <View style={styles.divAvatar}>
